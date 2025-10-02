@@ -1,0 +1,156 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Discover Albania</h1>
+        <p class="hero-subtitle">Your personalized trip advisor for authentic Albanian adventures, from crystal clear beaches to ancient castles</p>
+        <a href="#tours" class="cta-button">Explore Tours</a>
+    </div>
+    <div class="hero-image">
+        <img src="https://travellingbalkans.com/wp-content/uploads/2019/09/DJI_0853-HDR-1150x862.jpg" alt="Tirana Skyline">
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="why-albania">
+    <div class="container">
+        <h2>Why Choose Our Albanian Adventures?</h2>
+        <p class="section-intro">We are your personal trip advisors, creating unforgettable experiences in Europe's last hidden gem. Discover authentic Albania with local expertise and personalized service.</p>
+        
+        <div class="highlights-grid">
+            <div class="highlight-card">
+                <img src="https://cdn.thecrazytourist.com/wp-content/uploads/2023/03/ccimage-shutterstock_2166444493.jpg" alt="Skanderbeg Square">
+                <h3>Expert Local Guides</h3>
+                <p>Native Albanian guides with deep cultural knowledge and fluency in multiple languages</p>
+            </div>
+            <div class="highlight-card">
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/37/8e/ac/la-splendida-cupola-ingresso.jpg?w=1000&h=-1&s=1" alt="Personalized Tours">
+                <h3>Personalized Experiences</h3>
+                <p>Customized itineraries tailored to your interests, from history and culture to beaches and mountains</p>
+            </div>
+            <div class="highlight-card">
+                <img src="https://pine.al/uploads/images/2023/10/12/6528299c95185-WhatsApp%20Image%202023-10-12%20at%2018.12.36_7d65d1c5.jpg" alt="Authentic Culture">
+                <h3>Authentic Cultural Immersion</h3>
+                <p>Experience real Albanian life - traditional cuisine, local families, and hidden gems off the tourist trail</p>
+            </div>
+            <div class="highlight-card">
+                <img src="https://dajtiekspres.com/wp-content/uploads/2022/12/wall-faqe-e-pare-5.jpg" alt="Small Groups">
+                <h3>Small Group Experience</h3>
+                <p>Maximum 16 people per tour for intimate experiences and personalized attention</p>
+            </div>
+            <div class="highlight-card">
+                <img src="https://s.inyourpocket.com/gallery/135191.jpg" alt="UNESCO Sites">
+                <h3>UNESCO World Heritage</h3>
+                <p>Visit ancient Butrint, medieval Berat and Gjirokastër with expert historical commentary</p>
+            </div>
+            <div class="highlight-card">
+                <img src="https://wia.al/wp-content/uploads/2024/10/Albanian_food_dishes.jpg" alt="Culinary Tours">
+                <h3>Culinary Adventures</h3>
+                <p>Taste authentic Albanian cuisine and learn family recipes from local cooks</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Tours Section -->
+<section id="tours" class="tours-section">
+    <div class="container">
+        <h2>Our Signature Tours</h2>
+        <p class="section-intro">From quick city walks to week-long adventures - discover Albania your way with our carefully crafted experiences</p>
+        
+        <div class="tours-grid">
+            {% for tour in tours %}
+            <div class="tour-card">
+                <div class="tour-image">
+                    <img src="{{ tour.images[0] }}" alt="{{ tour.title }}">
+                    <div class="tour-price">€{{ tour.price }}</div>
+                </div>
+                <div class="tour-content">
+                    <h3>{{ tour.title }}</h3>
+                    <p class="tour-duration">{{ tour.duration }}</p>
+                    <p class="tour-description">{{ tour.short_description }}</p>
+                    <div class="tour-languages">
+                        <small>Available in: {{ tour.languages|join(', ') }}</small>
+                    </div>
+                    <a href="{{ url_for('tour_detail', tour_id=tour.id) }}" class="tour-button">Learn More</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+    <div class="container">
+        <h2>What Our Travelers Say</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"An incredible week exploring Albania! Our guide was knowledgeable and passionate. The mix of history, culture, and stunning landscapes exceeded all expectations."</p>
+                    <div class="testimonial-author">
+                        <strong>Maria S.</strong> - Germany
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Albania surprised us at every turn. From the warm hospitality to the untouched beaches, this tour showed us Europe's best-kept secret."</p>
+                    <div class="testimonial-author">
+                        <strong>James & Sarah</strong> - United Kingdom
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Perfect organization, authentic experiences, and incredible value for money. We felt like we were traveling with friends rather than a tour group."</p>
+                    <div class="testimonial-author">
+                        <strong>Roberto F.</strong> - Italy
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact-section">
+    <div class="container">
+        <h2>Plan Your Albanian Adventure</h2>
+        <p class="section-intro">Ready to discover Albania? Our local experts are here to create your perfect personalized itinerary.</p>
+        
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>📧 Email</h3>
+                    <p><a href="mailto:albaniawalktour@gmail.com">albaniawalktour@gmail.com</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>📱 WhatsApp</h3>
+                    <p><a href="https://wa.me/+355699444030" target="_blank">+355 69 944 4030</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>📍 Location</h3>
+                    <p>Skanderbeg Square, Tirana, Albania</p>
+                </div>
+                <div class="contact-item">
+                    <h3>🕐 Business Hours</h3>
+                    <p>Daily: 9:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+            
+            <div class="contact-cta">
+                <h3>Start Planning Today</h3>
+                <p>Get personalized recommendations, custom itineraries, and insider tips from our Albanian travel experts. All tours include professional multilingual guides and authentic local experiences.</p>
+                <div class="contact-buttons">
+                    <a href="https://wa.me/+355699444030" class="cta-button whatsapp-btn" target="_blank">WhatsApp Us</a>
+                    <a href="mailto:albaniawalktour@gmail.com" class="cta-button email-btn">Send Email</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

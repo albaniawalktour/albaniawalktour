@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Albania Walk Tour - Discover Albania's Capital{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='logo.jpeg') }}" type="image/x-icon">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">Albania Walk Tour</a>
+            <div class="nav-menu" id="nav-menu">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('about') }}" class="nav-link">About</a>
+                <a href="#tours" class="nav-link">Tours</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Albania Walk Tour</h3>
+                <p>Discover the beauty and history of Albania's vibrant capital with our expert local guides.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('about') }}">About</a>
+                <a href="#tours">Tours</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p>Email: info@albaniawalktour.com</p>
+                <p>Phone: +355 69 123 4567</p>
+                <p>Location: Tirana, Albania</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Albania Walk Tour. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- Floating Contact Icons -->
+    <div class="floating-contacts">
+        <div class="translate-container">
+            <div class="contact-icon translate" id="translate-toggle" onclick="toggleTranslateOptions()">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+                </svg>
+            </div>
+            <div class="translate-dropdown" id="translate-dropdown" style="display: none;">
+                <a href="#" onclick="goToOriginal(event)" class="translate-option original">
+                    <span class="flag">🇺🇸</span> English (Original)
+                </a>
+                <a href="#" onclick="translatePage(event, 'de')" class="translate-option">
+                    <span class="flag">🇩🇪</span> Deutsch
+                </a>
+                <a href="#" onclick="translatePage(event, 'it')" class="translate-option">
+                    <span class="flag">🇮🇹</span> Italiano
+                </a>
+                <a href="#" onclick="translatePage(event, 'es')" class="translate-option">
+                    <span class="flag">🇪🇸</span> Español
+                </a>
+                <a href="#" onclick="translatePage(event, 'fr')" class="translate-option">
+                    <span class="flag">🇫🇷</span> Français
+                </a>
+                <a href="#" onclick="translatePage(event, 'ar')" class="translate-option">
+                    <span class="flag">🇸🇦</span> العربية
+                </a>
+                <a href="#" onclick="translatePage(event, 'zh')" class="translate-option">
+                    <span class="flag">🇨🇳</span> 中文
+                </a>
+                <a href="#" onclick="translatePage(event, 'ru')" class="translate-option">
+                    <span class="flag">🇷🇺</span> Русский
+                </a>
+            </div>
+        </div>
+        <div class="ai-assistant-container">
+            <div class="contact-icon ai-assistant" id="ai-assistant-toggle" onclick="toggleAIAssistant()">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1L13.5 2.5L14.17 3.17L8.83 8.51L7.39 7.07L6 8.46L10.59 13.05L15.93 7.71L16.6 8.38L18 7L17 6L21 9ZM12.5 8C13.03 8 13.5 8.47 13.5 9S13.03 10 12.5 10 11.5 9.53 11.5 9 11.97 8 12.5 8ZM9.5 11C10.03 11 10.5 11.47 10.5 12S10.03 13 9.5 13 8.5 12.53 8.5 12 8.97 11 9.5 11ZM14.5 14C15.03 14 15.5 14.47 15.5 15S15.03 16 14.5 16 13.5 15.53 13.5 15 13.97 14 14.5 14ZM19 13C20.1 13 21 13.9 21 15S20.1 17 19 17 17 16.1 17 15 17.9 13 19 13ZM5 13C6.1 13 7 13.9 7 15S6.1 17 5 17 3 16.1 3 15 3.9 13 5 13ZM12 20C13.1 20 14 20.9 14 22C14 23.1 13.1 24 12 24C10.9 24 10 23.1 10 22C10 20.9 10.9 20 12 20Z"/>
+                </svg>
+            </div>
+            <div class="ai-assistant-panel" id="ai-assistant-panel" style="display: none;">
+                <div class="ai-header">
+                    <h3>🤖 AI Trip Assistant</h3>
+                    <p>Find your perfect Albanian adventure!</p>
+                </div>
+                <div class="ai-chat-container" id="ai-chat-container">
+                    <div class="ai-message assistant">
+                        Hello! I'm your AI trip assistant. Tell me what kind of experience you're looking for in Albania and I'll recommend the perfect tours for you! 
+                        <br><br>
+                        For example: "I want a 1-day cultural tour" or "Looking for adventure activities" or "Historical sites for a week-long trip"
+                    </div>
+                </div>
+                <div class="ai-input-container">
+                    <input type="text" id="ai-input" placeholder="Describe your ideal Albanian trip..." onkeypress="handleAIKeyPress(event)">
+                    <button onclick="sendAIMessage()" class="ai-send-btn">Send</button>
+                </div>
+            </div>
+        </div>
+        <a href="https://wa.me/+355699444030" class="contact-icon whatsapp" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+            </svg>
+        </a>
+        <a href="mailto:albaniawalktour@gmail.com" class="contact-icon email">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.904.732-1.636 1.636-1.636h3.819v.273L12 8.82l6.545-4.726v-.273h3.819c.904 0 1.636.732 1.636 1.636Z"/>
+            </svg>
+        </a>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        function toggleTranslateOptions() {
+            const dropdown = document.getElementById('translate-dropdown');
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+
+        function getOriginalUrl() {
+            // Always return the current page URL, removing any Google Translate parameters
+            let url = window.location.href;
+            
+            // If we're on a translated page, extract the original URL
+            if (url.includes('translate.google.com')) {
+                // Try to extract the original URL from Google Translate
+                const match = url.match(/[?&]u=([^&]+)/);
+                if (match) {
+                    return decodeURIComponent(match[1]);
+                }
+            }
+            
+            return url;
+        }
+
+        function translatePage(event, targetLang) {
+            event.preventDefault();
+            
+            // Close the dropdown
+            const dropdown = document.getElementById('translate-dropdown');
+            if (dropdown) {
+                dropdown.style.display = 'none';
+            }
+            
+            // Get the current page URL (clean version)
+            let originalUrl = getOriginalUrl();
+            
+            // Make sure we have a clean URL without Google Translate artifacts
+            if (originalUrl.includes('translate.google.com') || originalUrl.includes('_x_tr_')) {
+                originalUrl = window.location.origin + window.location.pathname;
+            }
+            
+            // Create translation URL
+            const translateUrl = `https://translate.google.com/translate?sl=auto&tl=${targetLang}&u=${encodeURIComponent(originalUrl)}`;
+            
+            // Navigate to translation
+            window.location.href = translateUrl;
+        }
+
+        function goToOriginal(event) {
+            event.preventDefault();
+            
+            // Close the dropdown
+            const dropdown = document.getElementById('translate-dropdown');
+            if (dropdown) {
+                dropdown.style.display = 'none';
+            }
+            
+            // Get clean original URL
+            let originalUrl = getOriginalUrl();
+            
+            // If still on translate.google.com, go to site root
+            if (originalUrl.includes('translate.google.com')) {
+                originalUrl = window.location.origin;
+            }
+            
+            // Navigate to original URL
+            window.location.href = originalUrl;
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const translateToggle = document.getElementById('translate-toggle');
+            const translateDropdown = document.getElementById('translate-dropdown');
+            
+            if (translateToggle && translateDropdown && 
+                !translateToggle.contains(event.target) && 
+                !translateDropdown.contains(event.target)) {
+                translateDropdown.style.display = 'none';
+            }
+        });
+
+        // Add keyboard support
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const dropdown = document.getElementById('translate-dropdown');
+                const aiPanel = document.getElementById('ai-assistant-panel');
+                if (dropdown && dropdown.style.display === 'block') {
+                    dropdown.style.display = 'none';
+                }
+                if (aiPanel && aiPanel.style.display === 'block') {
+                    aiPanel.style.display = 'none';
+                }
+            }
+        });
+
+        
+
+        // AI Assistant functionality
+        function toggleAIAssistant() {
+            const panel = document.getElementById('ai-assistant-panel');
+            if (panel) {
+                panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+
+        function handleAIKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendAIMessage();
+            }
+        }
+
+        function sendAIMessage() {
+            const input = document.getElementById('ai-input');
+            const chatContainer = document.getElementById('ai-chat-container');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'ai-message user';
+            userMessage.textContent = message;
+            chatContainer.appendChild(userMessage);
+
+            // Clear input
+            input.value = '';
+
+            // Add typing indicator
+            const typingMessage = document.createElement('div');
+            typingMessage.className = 'ai-message assistant';
+            typingMessage.innerHTML = 'Thinking... 🤔';
+            chatContainer.appendChild(typingMessage);
+
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Simulate AI response
+            setTimeout(() => {
+                chatContainer.removeChild(typingMessage);
+                const aiResponse = generateAIResponse(message.toLowerCase());
+                const assistantMessage = document.createElement('div');
+                assistantMessage.className = 'ai-message assistant';
+                assistantMessage.innerHTML = aiResponse;
+                chatContainer.appendChild(assistantMessage);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1500);
+        }
+
+        function generateAIResponse(message) {
+            const tours = [
+                 {
+    id: 'custom-tour-albania',
+    title: 'Your Custom Albania Experience',
+    price: null,
+    duration: 'Flexible',
+    description: 'Design your own Albania adventure tailored to your budget and interests! Choose from cultural, culinary, and nature-focused tours.',
+    keywords: ['custom', 'flexible', 'tailored', 'personalized', 'adventure', 'cultural', 'culinary', 'nature', 'bespoke', 'unique']
+  },
+  {
+    id: 'albania-week-tour',
+    title: 'Albania Discovery Week - 6 Days Complete Tour',
+    price: 450,
+    duration: '6 days / 5 nights',
+    description: "Experience the best of Albania in 6 unforgettable days - from Tirana's history to the Albanian Riviera's stunning beaches.",
+    keywords: ['week', 'multi-day', 'history', 'beach', 'riviera', 'unesco', 'comprehensive', 'tour', 'culture', 'landscape']
+  },
+  {
+    id: 'classic-albania-6-days',
+    title: 'Classic Albania - 6 Days Cultural Journey',
+    price: 475,
+    duration: '6 days / 5 nights',
+    description: "The perfect introduction to Albania - from Tirana's vibrant culture to UNESCO heritage sites and the stunning Albanian Riviera.",
+    keywords: ['classic', 'unesco', 'cultural', 'heritage', 'journey', 'multi-day', 'beach', 'coast', 'tour', 'history']
+  },
+  {
+    id: 'albanian-riviera-5-days',
+    title: 'Albanian Riviera Highlights - 5 Days Beach & Culture',
+    price: 395,
+    duration: '5 days / 4 nights',
+    description: "Explore Albania's stunning coastline from Vlorë to Saranda, including pristine beaches, dramatic mountain passes, and ancient archaeological sites.",
+    keywords: ['riviera', 'beach', 'coastal', 'culture', 'mountains', '5-day', 'heritage', 'seafood', 'unesco', 'tour']
+  },
+  {
+    id: 'southern-cultural-loop',
+    title: 'Southern Cultural Loop - 6 Days Archaeological Journey',
+    price: 425,
+    duration: '6 days / 5 nights',
+    description: "Immerse yourself in Albania's ancient history visiting Apollonia, Berat, Gjirokastër, and Butrint - four UNESCO and archaeological treasures.",
+    keywords: ['southern', 'cultural', 'archaeology', 'unesco', 'heritage', 'history', 'multi-day', 'loop', 'ancient', 'journey']
+  },
+  {
+    id: 'northern-mountains-theth',
+    title: 'Northern Mountains & Theth - 6 Days Alpine Adventure',
+    price: 485,
+    duration: '6 days / 5 nights',
+    description: "Explore Albania's dramatic northern Alps, traditional mountain villages, and pristine wilderness in Theth and Valbona valleys.",
+    keywords: ['northern', 'mountains', 'alpine', 'theth', 'valbona', 'adventure', 'hiking', 'multi-day', 'nature', 'villages']
+  },
+  {
+    id: 'tirana-walking-tour',
+    title: 'Tirana Historical Walking Tour',
+    price: 25,
+    duration: '3 hours',
+    description: "Discover the heart of Albania's capital with our comprehensive walking tour through Tirana's most iconic landmarks.",
+    keywords: ['tirana', 'walking', 'history', 'city', 'landmarks', 'capital', 'tour', 'culture', 'heritage', 'sightseeing']
+  },
+  {
+    id: 'dajti-mountain-adventure',
+    title: 'Dajti Mountain & Cable Car Experience',
+    price: 45,
+    duration: '4 hours',
+    description: 'Take the cable car up Dajti Mountain for breathtaking views of Tirana and the Albanian coastline.',
+    keywords: ['dajti', 'mountain', 'cable car', 'views', 'tirana', 'nature', 'adventure', 'scenic', 'park', 'hiking']
+  },
+  {
+    id: 'food-culture-tour',
+    title: 'Tirana Food & Culture Experience',
+    price: 55,
+    duration: '4.5 hours',
+    description: 'Taste authentic Albanian cuisine while exploring local markets, traditional restaurants, and cultural sites.',
+    keywords: ['food', 'culture', 'tirana', 'cuisine', 'markets', 'culinary', 'tour', 'taste', 'local', 'traditional']
+  },
+  {
+    id: 'tirana-food-culture',
+    title: 'Tirana Food & Culture Immersion',
+    price: 55,
+    duration: '4.5 hours',
+    description: 'Savor authentic Albanian flavors while exploring vibrant markets, traditional eateries, and cultural landmarks.',
+    keywords: ['food', 'culture', 'immersion', 'tirana', 'cuisine', 'markets', 'culinary', 'tour', 'taste', 'local']
+  },
+  {
+    id: 'gjirokaster-culture-tour',
+    title: 'Gjirokastër Cultural & Culinary Expedition',
+    price: 70,
+    duration: '5 hours',
+    description: "Step back in time and savor the authentic tastes of Gjirokastër, a UNESCO World Heritage gem.",
+    keywords: ['gjirokastër', 'cultural', 'culinary', 'unesco', 'heritage', 'expedition', 'taste', 'history', 'tradition', 'city']
+  },
+  {
+    id: 'albanian-coastline-tasting',
+    title: 'Albanian Coastline Seafood Discovery',
+    price: 75,
+    duration: '6 hours',
+    description: "Savor the best of Albania’s coastal cuisine while exploring its stunning seaside towns.",
+    keywords: ['coastline', 'seafood', 'discovery', 'albania', 'coastal', 'tasting', 'cuisine', 'seaside', 'tour', 'food']
+  },
+  {
+    id: 'albanian-wine-tour',
+    title: 'Albanian Wine & Olive Oil Experience',
+    price: 80,
+    duration: '5 hours',
+    description: "Uncover the ancient traditions of Albanian wine-making and olive oil production.",
+    keywords: ['wine', 'olive oil', 'experience', 'tasting', 'tradition', 'albania', 'vineyard', 'cuisine', 'tour', 'heritage']
+  },
+  {
+    id: 'valbona-hiking-tour',
+    title: 'Valbona Valley Hiking & Culinary Escape',
+    price: 90,
+    duration: '7 hours',
+    description: "Embark on a scenic hike through Valbona Valley, followed by a hearty traditional mountain meal.",
+    keywords: ['valbona', 'hiking', 'culinary', 'escape', 'valley', 'alps', 'mountain', 'nature', 'tour', 'adventure']
+  },
+  {
+    id: 'tirana-city-tour',
+    title: 'Tirana City Culture & Culinary Adventure',
+    price: 50,
+    duration: '4 hours',
+    description: 'Discover the cultural heart of Albania while indulging in Tirana’s vibrant food scene.',
+    keywords: ['tirana', 'city', 'culture', 'culinary', 'adventure', 'food', 'heritage', 'tour', 'local', 'explore']
+  },
+  {
+    id: 'berat-wine-tour',
+    title: 'Berat Wine & History Experience',
+    price: 75,
+    duration: '5 hours',
+    description: 'Uncover the rich history of Berat while indulging in its exquisite wines.',
+    keywords: ['berat', 'wine', 'history', 'experience', 'unesco', 'heritage', 'cultural', 'tour', 'vineyard', 'local']
+  },
+  {
+    id: 'butrint-archaeological-tour',
+    title: 'Butrint Archaeological & Cultural Expedition',
+    price: 65,
+    duration: '4 hours',
+    description: 'Explore the UNESCO-listed ruins of Butrint, a fascinating site rich in history and natural beauty.',
+    keywords: ['butrint', 'archaeological', 'cultural', 'unesco', 'ruins', 'history', 'expedition', 'heritage', 'tour', 'ancient']
+  }
+            ];
+
+            let recommendations = [];
+            let personalizedMessage = "";
+
+            // More intelligent keyword matching
+            const keywords = message.toLowerCase().split(' ');
+            
+            // Calculate relevance scores for each tour
+            const tourScores = tours.map(tour => {
+                let score = 0;
+                keywords.forEach(keyword => {
+                    tour.keywords.forEach(tourKeyword => {
+                        if (keyword.includes(tourKeyword) || tourKeyword.includes(keyword)) {
+                            score += 1;
+                        }
+                    });
+                });
+                return { tour, score };
+            });
+
+            // Sort by relevance and get top matches
+            tourScores.sort((a, b) => b.score - a.score);
+            
+            if (tourScores[0].score > 0) {
+                recommendations = tourScores.filter(ts => ts.score > 0).map(ts => ts.tour);
+                if (recommendations.length > 3) recommendations = recommendations.slice(0, 3);
+            } else {
+                // Fallback to pattern matching
+                if (message.includes('day') || message.includes('quick') || message.includes('short') || message.includes('3') || message.includes('three')) {
+                    recommendations.push(tours[0], tours[2]);
+                    personalizedMessage = "I see you're looking for shorter experiences! Here are some great options:";
+                } else if (message.includes('adventure') || message.includes('mountain') || message.includes('hiking') || message.includes('nature')) {
+                    recommendations.push(tours[1]);
+                    personalizedMessage = "Perfect! For adventure lovers, I have just the thing:";
+                } else if (message.includes('food') || message.includes('cuisine') || message.includes('eat') || message.includes('restaurant')) {
+                    recommendations.push(tours[2]);
+                    personalizedMessage = "A fellow food enthusiast! You'll love this culinary experience:";
+                } else if (message.includes('week') || message.includes('long') || message.includes('complete') || message.includes('everything') || message.includes('6') || message.includes('six')) {
+                    recommendations.push(tours[3]);
+                    personalizedMessage = "For the ultimate Albanian adventure, this comprehensive tour is perfect:";
+                } else if (message.includes('history') || message.includes('culture') || message.includes('historical') || message.includes('museum')) {
+                    recommendations.push(tours[0], tours[3]);
+                    personalizedMessage = "Great choice! History and culture enthusiasts will enjoy these tours:";
+                } else if (message.includes('budget') || message.includes('cheap') || message.includes('affordable')) {
+                    recommendations = tours.sort((a, b) => a.price - b.price).slice(0, 2);
+                    personalizedMessage = "Here are our most budget-friendly options:";
+                } else if (message.includes('luxury') || message.includes('premium') || message.includes('best')) {
+                    recommendations.push(tours[3], tours[1]);
+                    personalizedMessage = "For a premium experience, these tours offer the best value:";
+                } else {
+                    recommendations.push(tours[0], tours[2]);
+                    personalizedMessage = "Here are our most popular tours to get you started:";
+                }
+            }
+
+            let response = personalizedMessage || "Based on your request, I recommend these tours:";
+            response += "\n\n";
+            
+            recommendations.forEach(tour => {
+                response += `<div class="tour-recommendation" onclick="window.location.href='/tour/${tour.id}'" style="cursor: pointer;">
+                    <h4>${tour.title}</h4>
+                    <p><strong>€${tour.price}</strong> • ${tour.duration}</p>
+                    <p>${tour.description}</p>
+                    <div class="tour-actions">
+                        <button onclick="event.stopPropagation(); window.location.href='/tour/${tour.id}'" class="tour-link-btn">View Details & Book</button>
+                    </div>
+                </div>`;
+            });
+
+            // Add helpful follow-up suggestions
+            if (recommendations.length === 1) {
+                response += "\n\n💡 Want to see more options? Try asking about: 'show me all tours' or 'what else do you have?'";
+            } else {
+                response += "\n\n💡 Need help deciding? Ask me: 'which tour is best for families?' or 'what's the difference between these tours?'";
+            }
+
+            return response;
+        }
+
+        // Close AI panel when clicking outside
+        document.addEventListener('click', function(event) {
+            const aiToggle = document.getElementById('ai-assistant-toggle');
+            const aiPanel = document.getElementById('ai-assistant-panel');
+            const translateToggle = document.getElementById('translate-toggle');
+            const translateDropdown = document.getElementById('translate-dropdown');
+            
+            if (aiToggle && aiPanel && 
+                !aiToggle.contains(event.target) && 
+                !aiPanel.contains(event.target)) {
+                aiPanel.style.display = 'none';
+            }
+            
+            if (translateToggle && translateDropdown && 
+                !translateToggle.contains(event.target) && 
+                !translateDropdown.contains(event.target)) {
+                translateDropdown.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

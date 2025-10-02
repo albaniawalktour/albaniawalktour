@@ -1,0 +1,487 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ tour.title }} - Albania Walk Tour{% endblock %}
+
+{% block content %}
+<section class="tour-hero">
+    <div class="container">
+        <div class="tour-header">
+            <h1>{{ tour.title }}</h1>
+            <div class="tour-meta">
+                <span class="price">€{{ tour.price }} per person</span>
+                <span class="duration">{{ tour.duration }}</span>
+                <span class="starting-point">Starting: {{ tour.starting_point }}</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="tour-details">
+    <div class="container">
+        <div class="tour-content-grid">
+            <div class="tour-main">
+                <!-- Image Gallery -->
+                <div class="tour-gallery">
+                    {% for image in tour.images %}
+                    <img src="{{ image }}" alt="{{ tour.title }}" class="gallery-image">
+                    {% endfor %}
+                </div>
+
+                <!-- Description -->
+                <div class="tour-description">
+                    <h2>About This Tour</h2>
+                    <p>{{ tour.long_description }}</p>
+                </div>
+
+                <!-- Day by Day Itinerary -->
+                <div class="tour-itinerary">
+                    <h2>Daily Itinerary</h2>
+                    
+                    <div class="day-card">
+                        <div class="day-header">
+                            <h3>Day 1: Arrival in Tirana</h3>
+                        </div>
+                        <div class="day-content">
+                            <p><strong>Morning:</strong> Airport pickup and transfer to hotel in Tirana</p>
+                            <p><strong>Afternoon:</strong> Tirana city walking tour - Skanderbeg Square, Et'hem Bey Mosque, Clock Tower, National History Museum</p>
+                            <p><strong>Evening:</strong> Welcome dinner at traditional Albanian restaurant</p>
+                            <p><strong>Accommodation:</strong> Hotel in Tirana center</p>
+                        </div>
+                    </div>
+
+                    <div class="day-card">
+                        <div class="day-header">
+                            <h3>Day 2: Tirana - Berat (UNESCO Site)</h3>
+                        </div>
+                        <div class="day-content">
+                            <p><strong>Morning:</strong> Visit Bunk'Art museum, then depart for Berat (2.5 hours drive)</p>
+                            <p><strong>Afternoon:</strong> Explore Berat Castle and Mangalem quarter - "City of a Thousand Windows"</p>
+                            <p><strong>Evening:</strong> Free time to explore Ottoman-era bazaar</p>
+                            <p><strong>Accommodation:</strong> Traditional hotel in Berat</p>
+                        </div>
+                    </div>
+
+                    <div class="day-card">
+                        <div class="day-header">
+                            <h3>Day 3: Berat - Apollonia - Gjirokaster</h3>
+                        </div>
+                        <div class="day-content">
+                            <p><strong>Morning:</strong> Visit ancient Apollonia archaeological park</p>
+                            <p><strong>Afternoon:</strong> Drive to Gjirokaster (2 hours), explore the Castle and old bazaar</p>
+                            <p><strong>Evening:</strong> Traditional dinner with folk music performance</p>
+                            <p><strong>Accommodation:</strong> Stone house hotel in Gjirokaster</p>
+                        </div>
+                    </div>
+
+                    <div class="day-card">
+                        <div class="day-header">
+                            <h3>Day 4: Gjirokaster - Butrint - Blue Eye - Saranda</h3>
+                        </div>
+                        <div class="day-content">
+                            <p><strong>Morning:</strong> Visit Butrint National Park (UNESCO World Heritage site)</p>
+                            <p><strong>Afternoon:</strong> Marvel at the Blue Eye natural spring phenomenon</p>
+                            <p><strong>Evening:</strong> Arrive in Saranda, free time at the seaside promenade</p>
+                            <p><strong>Accommodation:</strong> Beachfront hotel in Saranda</p>
+                        </div>
+                    </div>
+
+                    <div class="day-card">
+                        <div class="day-header">
+                            <h3>Day 5: Albanian Riviera - Ksamil - Llogara Pass</h3>
+                        </div>
+                        <div class="day-content">
+                            <p><strong>Morning:</strong> Boat trip to Ksamil islands - pristine beaches and crystal waters</p>
+                            <p><strong>Afternoon:</strong> Drive through Llogara National Park with spectacular mountain views</p>
+                            <p><strong>Evening:</strong> Sunset dinner overlooking the Ionian Sea</p>
+                            <p><strong>Accommodation:</strong> Mountain lodge near Llogara Pass</p>
+                        </div>
+                    </div>
+
+                    <div class="day-card">
+                        <div class="day-header">
+                            <h3>Day 6: Return to Tirana - Departure</h3>
+                        </div>
+                        <div class="day-content">
+                            <p><strong>Morning:</strong> Scenic drive back to Tirana (4 hours) with stops for photos</p>
+                            <p><strong>Afternoon:</strong> Last-minute shopping at Tirana's Grand Park area</p>
+                            <p><strong>Evening:</strong> Airport transfer for departure or hotel drop-off for extended stay</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Highlights -->
+                <div class="tour-highlights">
+                    <h2>Tour Highlights</h2>
+                    <ul>
+                        {% for highlight in tour.highlights %}
+                        <li>{{ highlight }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- What's Included -->
+                <div class="tour-included">
+                    <h2>What's Included</h2>
+                    <ul>
+                        {% for item in tour.included %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Important Notes -->
+                <div class="tour-notes">
+                    <h2>Important Information</h2>
+                    <ul>
+                        <li>Comfortable walking shoes recommended</li>
+                        <li>Passport required for travel</li>
+                        <li>Weather-appropriate clothing advised</li>
+                        <li>Camera recommended for stunning scenery</li>
+                        <li>Some sites involve uphill walking</li>
+                        <li>Vegetarian meal options available upon request</li>
+                    </ul>
+                </div>
+
+                <!-- Meeting Point -->
+                <div class="meeting-point">
+                    <h2>Meeting Point Details</h2>
+                    <p>{{ tour.meeting_point_details }}</p>
+                </div>
+
+                <!-- Languages -->
+                <div class="tour-languages">
+                    <h2>Available Languages</h2>
+                    <div class="language-tags">
+                        {% for language in tour.languages %}
+                        <span class="language-tag">{{ language }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Sidebar -->
+            <div class="booking-sidebar">
+                <div class="booking-card">
+                    <h3>Book This 6-Day Tour</h3>
+                    <form id="booking-form" class="booking-form" method="post" action="/book">
+                        <input type="hidden" name="tour_id" value="{{ tour.id }}">
+                        
+                        <div class="form-group">
+                            <label for="user_name">Full Name *</label>
+                            <input type="text" id="user_name" name="user_name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="user_email">Email Address *</label>
+                            <input type="email" id="user_email" name="user_email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="user_phone">Phone Number *</label>
+                            <input type="tel" id="user_phone" name="user_phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="preferred_date_time">Preferred Tour Date *</label>
+                            <select id="preferred_date_time" name="preferred_date_time" required>
+                                <option value="">Select a tour date</option>
+                                {% for schedule in tour.schedule %}
+                                <option value="{{ schedule }}">
+                                    {{ schedule[:10] }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="number_of_people">Number of People *</label>
+                            <select id="number_of_people" name="number_of_people" required>
+                                {% for i in range(1, 11) %}
+                                <option value="{{ i }}">{{ i }} {{ 'person' if i == 1 else 'people' }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="special_requests">Special Requests</label>
+                            <textarea id="special_requests" name="special_requests" placeholder="Dietary requirements, accessibility needs, etc..."></textarea>
+                        </div>
+
+                        <button type="submit" class="book-button">Book Now - €{{ tour.price }}</button>
+                    </form>
+                </div>
+
+                <!-- Quick Info -->
+                <div class="quick-info">
+                    <h4>Quick Info</h4>
+                    <div class="info-item">
+                        <strong>Duration:</strong> {{ tour.duration }}
+                    </div>
+                    <div class="info-item">
+                        <strong>Group Size:</strong> Max 16 people
+                    </div>
+                    <div class="info-item">
+                        <strong>Price:</strong> €{{ tour.price }} per person
+                    </div>
+                    <div class="info-item">
+                        <strong>Difficulty:</strong> Easy to Moderate
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Existing styles from tour_detail.html remain the same */
+.tour-hero {
+    background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%);
+    padding: 120px 20px 60px;
+}
+
+.tour-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #1d1d1f;
+}
+
+.tour-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.tour-meta span {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+}
+
+.price {
+    background: rgba(0, 113, 227, 0.1) !important;
+    color: #0071e3 !important;
+}
+
+/* New styles for itinerary */
+.tour-itinerary {
+    margin-bottom: 3rem;
+}
+
+.day-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.day-header {
+    background: linear-gradient(135deg, #0071e3, #005bb5);
+    color: white;
+    padding: 1rem 1.5rem;
+}
+
+.day-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.day-content {
+    padding: 1.5rem;
+}
+
+.day-content p {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.day-content strong {
+    color: #0071e3;
+}
+
+/* Rest of existing styles remain the same */
+.tour-details {
+    padding: 80px 20px;
+}
+
+.tour-content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tour-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+}
+
+.tour-main > div {
+    margin-bottom: 3rem;
+}
+
+.tour-main h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #1d1d1f;
+}
+
+.tour-main ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tour-main li {
+    background: #f5f5f7;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    position: relative;
+    padding-left: 40px;
+}
+
+.tour-main li::before {
+    content: '✓';
+    position: absolute;
+    left: 15px;
+    color: #0071e3;
+    font-weight: bold;
+}
+
+.language-tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.language-tag {
+    background: #0071e3;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+}
+
+.booking-sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.booking-card, .quick-info {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.booking-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.booking-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #1d1d1f;
+}
+
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #d2d2d7;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus {
+    outline: none;
+    border-color: #0071e3;
+}
+
+.booking-form textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+.book-button {
+    width: 100%;
+    background: #0071e3;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.book-button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .tour-content-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .tour-header h1 {
+        font-size: 2rem;
+    }
+    
+    .tour-meta {
+        gap: 1rem;
+    }
+    
+    .booking-sidebar {
+        position: static;
+    }
+    
+    .day-content {
+        padding: 1rem;
+    }
+}
+</style>
+{% endblock %}

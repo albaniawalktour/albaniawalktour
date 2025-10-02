@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Tirana Walk Tour</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <nav class="admin-nav">
+            <div class="nav-brand">
+                <h2>Tirana Walk Tour</h2>
+                <span>Admin Dashboard</span>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link active">Dashboard</a>
+                <a href="{{ url_for('admin_tours') }}" class="nav-link">Tours</a>
+                <a href="{{ url_for('admin_bookings') }}" class="nav-link">Bookings</a>
+                <a href="{{ url_for('admin_logout') }}" class="nav-link logout">Logout</a>
+            </div>
+        </nav>
+        
+        <main class="admin-main">
+            <div class="dashboard-header">
+                <h1>Dashboard Overview</h1>
+            </div>
+            
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">{{ tours|length }}</div>
+                    <div class="stat-label">Total Tours</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ bookings|length }}</div>
+                    <div class="stat-label">Total Bookings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ recent_bookings_count }}</div>
+                    <div class="stat-label">This Week</div>
+                </div>
+            </div>
+            
+            <div class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <a href="{{ url_for('admin_add_tour') }}" class="btn btn-primary">Add New Tour</a>
+                    <a href="{{ url_for('admin_tours') }}" class="btn btn-secondary">Manage Tours</a>
+                    <a href="{{ url_for('admin_bookings') }}" class="btn btn-secondary">View All Bookings</a>
+                </div>
+            </div>
+            
+            <div class="recent-bookings">
+                <h2>Recent Bookings</h2>
+                {% if bookings %}
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Tour</th>
+                                    <th>Date</th>
+                                    <th>People</th>
+                                    <th>Booking Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in bookings[:5] %}
+                                <tr>
+                                    <td>{{ booking.user_name }}</td>
+                                    <td>{{ booking.user_email }}</td>
+                                    <td>{{ booking.tour_id }}</td>
+                                    <td>{{ booking.preferred_date_time[:10] }}</td>
+                                    <td>{{ booking.number_of_people }}</td>
+                                    <td>{{ booking.booking_time[:10] if booking.booking_time else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>No bookings yet.</p>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>
