@@ -5,13 +5,13 @@ from datetime import datetime
 import uuid
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SESSION_SECRET', 'your-secret-key-here')
+app.secret_key = os.environ.get('SESSION_SECRET', 'TiTirana')
 
 
 
 # Admin credentials (from environment variables for security)
-ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
-ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
+ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'TiTirana')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'TiTirana')
 
 # Load tour data
 def load_tours():
