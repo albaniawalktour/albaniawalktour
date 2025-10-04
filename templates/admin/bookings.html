@@ -47,7 +47,7 @@
                                 <th>Tour ID</th>
                                 <th>Date</th>
                                 <th>People</th>
-                                <th>Special Requests</th>
+                                <th>Payment Status</th>
                                 <th>Booking Date</th>
                                 <th>Actions</th>
                             </tr>
@@ -62,7 +62,14 @@
                                 <td>{{ booking.tour_id }}</td>
                                 <td>{{ booking.preferred_date_time[:10] }}</td>
                                 <td>{{ booking.number_of_people }}</td>
-                                <td>{{ booking.special_requests[:50] }}{% if booking.special_requests|length > 50 %}...{% endif %}</td>
+                                <td>
+                                    <form method="post" action="{{ url_for('admin_update_payment_status', booking_id=booking.booking_id) }}" style="display: inline-flex; gap: 5px; align-items: center;">
+                                        <select name="payment_status" class="payment-status-select {{ booking.payment_status|default('pending') }}" onchange="this.form.submit()">
+                                            <option value="pending" {% if booking.payment_status == 'pending' or not booking.payment_status %}selected{% endif %}>Pending</option>
+                                            <option value="paid" {% if booking.payment_status == 'paid' %}selected{% endif %}>Paid</option>
+                                        </select>
+                                    </form>
+                                </td>
                                 <td>{{ booking.booking_time[:10] if booking.booking_time else 'N/A' }}</td>
                                 <td>
                                     <form method="post" action="{{ url_for('admin_delete_booking', booking_id=booking.booking_id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this booking?')">

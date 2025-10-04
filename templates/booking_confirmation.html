@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Confirmation - Tirana Walk Tour{% endblock %}
+
+{% block content %}
+<section class="booking-confirmation-section">
+    <div class="container">
+        <div class="confirmation-card">
+            {% if booking.payment_status == 'paid' %}
+            <div class="status-badge paid">
+                <svg width="60" height="60" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="28" fill="#34c759" />
+                    <path d="M20 30 L27 37 L40 23" stroke="white" stroke-width="4" fill="none" />
+                </svg>
+                <h1>Payment Confirmed!</h1>
+                <p class="status-message">Your booking is confirmed and paid.</p>
+            </div>
+            {% else %}
+            <div class="status-badge pending">
+                <svg width="60" height="60" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="28" fill="#ff9500" />
+                    <text x="30" y="40" text-anchor="middle" fill="white" font-size="36" font-weight="bold">!</text>
+                </svg>
+                <h1>Payment Required</h1>
+                <p class="status-message">Please complete your payment to confirm this booking.</p>
+            </div>
+            {% endif %}
+
+            <div class="booking-details">
+                <h2>Booking Details</h2>
+                
+                <div class="detail-row">
+                    <span class="label">Booking ID:</span>
+                    <span class="value">{{ booking.booking_id }}</span>
+                </div>
+
+                {% if tour %}
+                <div class="detail-row">
+                    <span class="label">Tour:</span>
+                    <span class="value">{{ tour.title }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Price:</span>
+                    <span class="value">€{{ tour.price }} per person</span>
+                </div>
+                {% endif %}
+
+                <div class="detail-row">
+                    <span class="label">Name:</span>
+                    <span class="value">{{ booking.user_name }}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Email:</span>
+                    <span class="value">{{ booking.user_email }}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Phone:</span>
+                    <span class="value">{{ booking.user_phone }}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Number of People:</span>
+                    <span class="value">{{ booking.number_of_people }}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Preferred Date/Time:</span>
+                    <span class="value">{{ booking.preferred_date_time }}</span>
+                </div>
+
+                {% if booking.special_requests %}
+                <div class="detail-row">
+                    <span class="label">Special Requests:</span>
+                    <span class="value">{{ booking.special_requests }}</span>
+                </div>
+                {% endif %}
+
+                <div class="detail-row">
+                    <span class="label">Payment Status:</span>
+                    <span class="value payment-status {{ booking.payment_status }}">
+                        {{ booking.payment_status.upper() }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                {% if booking.payment_status != 'paid' %}
+                <a href="{{ payment_url }}" class="pay-button">
+                    Complete Payment Now
+                </a>
+                <p class="payment-note">Click above to proceed to PayPal and complete your payment</p>
+                {% endif %}
+                
+                <a href="/" class="back-button">Back to Tours</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.booking-confirmation-section {
+    min-height: calc(100vh - 200px);
+    padding: 120px 20px 80px;
+    background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%);
+}
+
+.confirmation-card {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.status-badge svg {
+    margin-bottom: 1rem;
+}
+
+.status-badge h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.status-badge.paid h1 {
+    color: #34c759;
+}
+
+.status-badge.pending h1 {
+    color: #ff9500;
+}
+
+.status-message {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.booking-details {
+    background: #f5f5f7;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.booking-details h2 {
+    margin-bottom: 1.5rem;
+    color: #1d1d1f;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row .label {
+    font-weight: 600;
+    color: #666;
+}
+
+.detail-row .value {
+    color: #1d1d1f;
+    text-align: right;
+}
+
+.payment-status {
+    padding: 5px 15px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.payment-status.paid {
+    background: #d1f4e0;
+    color: #34c759;
+}
+
+.payment-status.pending {
+    background: #ffe5cc;
+    color: #ff9500;
+}
+
+.action-buttons {
+    text-align: center;
+}
+
+.pay-button {
+    display: inline-block;
+    background: #0071e3;
+    color: white;
+    padding: 15px 40px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.pay-button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+.payment-note {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.back-button {
+    display: inline-block;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    padding: 12px 30px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background: #e8e8ed;
+}
+
+@media (max-width: 768px) {
+    .confirmation-card {
+        padding: 2rem;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .detail-row .value {
+        text-align: left;
+    }
+}
+</style>
+{% endblock %}

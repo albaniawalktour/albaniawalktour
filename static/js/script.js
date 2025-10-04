@@ -142,10 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Booking created! You will now be redirected to PayPal to complete your payment.');
-                    setTimeout(() => {
-                        window.location.href = data.payment_url;
-                    }, 1500);
+                    window.location.href = `/booking/${data.booking_id}`;
                 } else {
                     alert(data.message || 'Booking failed. Please try again or contact us directly.');
                     submitButton.textContent = originalText;

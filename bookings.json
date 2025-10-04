@@ -8,7 +8,8 @@
     "number_of_people": 3,
     "preferred_date_time": "By Appointment",
     "special_requests": "asda",
-    "booking_time": "2025-09-20T17:26:10.395168"
+    "booking_time": "2025-09-20T17:26:10.395168",
+    "payment_status": "pending"
   },
   {
     "booking_id": "710e75af-db28-4b67-b5bb-58730a029545",
@@ -19,6 +20,19 @@
     "number_of_people": 4,
     "preferred_date_time": "2025-09-15T11:00:00",
     "special_requests": "ghj",
-    "booking_time": "2025-10-04T14:48:47.530456"
+    "booking_time": "2025-10-04T14:48:47.530456",
+    "payment_status": "pending"
+  },
+  {
+    "booking_id": "c019d6d6-21d8-4aee-9103-312895980de3",
+    "tour_id": "albanian-riviera-5-days",
+    "user_name": "adi",
+    "user_email": "asd@gmail.com",
+    "user_phone": "asd",
+    "number_of_people": 3,
+    "preferred_date_time": "2025-05-15T10:00:00",
+    "special_requests": "asd",
+    "booking_time": "2025-10-04T15:00:17.798486",
+    "payment_status": "pending"
   }
 ]

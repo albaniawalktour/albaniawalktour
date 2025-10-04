@@ -108,6 +108,31 @@ def tour_detail(tour_id):
 def about():
     return render_template('about.html')
 
+@app.route('/booking/<booking_id>')
+def booking_confirmation(booking_id):
+    try:
+        with open('bookings.json', 'r') as f:
+            bookings = json.load(f)
+        
+        booking = next((b for b in bookings if b['booking_id'] == booking_id), None)
+        
+        if not booking:
+            return render_template('booking_not_found.html'), 404
+        
+        # Get tour details
+        tours = load_tours()
+        tour = next((t for t in tours if t['id'] == booking.get('tour_id')), None)
+        
+        # Get payment URL
+        payment_url = os.environ.get('PAYPAL_PAYMENT_URL', 'https://www.paypal.com/ncp/payment/Q3PQ3TCYUA7L4')
+        
+        return render_template('booking_confirmation.html', 
+                             booking=booking, 
+                             tour=tour,
+                             payment_url=payment_url)
+    except FileNotFoundError:
+        return render_template('booking_not_found.html'), 404
+
 @app.route('/book', methods=['POST'])
 def book_tour():
     # Validation
@@ -152,7 +177,8 @@ def book_tour():
         'number_of_people': num_people,
         'preferred_date_time': (request.form.get('preferred_date_time') or '').strip(),
         'special_requests': (request.form.get('special_requests') or '').strip(),
-        'booking_time': datetime.now().isoformat()
+        'booking_time': datetime.now().isoformat(),
+        'payment_status': 'pending'
     }
     
     if save_booking(booking_data):
@@ -162,13 +188,14 @@ def book_tour():
         # Send WhatsApp notification (requires Twilio credentials)
         send_whatsapp_notification(booking_data, tour)
         
-        # PayPal payment link
+        # PayPal payment link with booking ID
         payment_url = os.environ.get('PAYPAL_PAYMENT_URL', 'https://www.paypal.com/ncp/payment/Q3PQ3TCYUA7L4')
         
         return jsonify({
             'success': True, 
             'message': 'Booking successful! Redirecting to payment...',
-            'payment_url': payment_url
+            'payment_url': payment_url,
+            'booking_id': booking_data['booking_id']
         })
     else:
         return jsonify({'success': False, 'message': 'Booking failed due to server error. Please try again or contact us directly.'})
@@ -340,6 +367,29 @@ def admin_delete_booking(booking_id):
         flash('Booking deleted successfully!')
     except FileNotFoundError:
         flash('No bookings found')
+    
+    return redirect(url_for('admin_bookings'))
+
+@app.route('/admin/bookings/update-payment/<booking_id>', methods=['POST'])
+@admin_required
+def admin_update_payment_status(booking_id):
+    try:
+        with open('bookings.json', 'r') as f:
+            bookings = json.load(f)
+        
+        new_status = request.form.get('payment_status', 'pending')
+        
+        for booking in bookings:
+            if booking['booking_id'] == booking_id:
+                booking['payment_status'] = new_status
+                break
+        
+        with open('bookings.json', 'w') as f:
+            json.dump(bookings, f, indent=2)
+        
+        flash(f'Payment status updated to {new_status}!')
+    except FileNotFoundError:
+        flash('Booking not found')
     
     return redirect(url_for('admin_bookings'))
 

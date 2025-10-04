@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Not Found - Tirana Walk Tour{% endblock %}
+
+{% block content %}
+<section class="error-section">
+    <div class="container">
+        <div class="error-card">
+            <div class="error-icon">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                    <circle cx="40" cy="40" r="38" fill="#ff3b30" />
+                    <text x="40" y="60" text-anchor="middle" fill="white" font-size="48" font-weight="bold">?</text>
+                </svg>
+            </div>
+            <h1>Booking Not Found</h1>
+            <p>We couldn't find the booking you're looking for. It may have been removed or the link is incorrect.</p>
+            <div class="action-buttons">
+                <a href="/" class="home-button">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.error-section {
+    min-height: calc(100vh - 200px);
+    padding: 120px 20px 80px;
+    background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%);
+    display: flex;
+    align-items: center;
+}
+
+.error-card {
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.error-icon {
+    margin-bottom: 2rem;
+}
+
+.error-card h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #1d1d1f;
+}
+
+.error-card p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.home-button {
+    display: inline-block;
+    background: #0071e3;
+    color: white;
+    padding: 15px 40px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.home-button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+</style>
+{% endblock %}
