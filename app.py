@@ -123,8 +123,12 @@ def booking_confirmation(booking_id):
         tours = load_tours()
         tour = next((t for t in tours if t['id'] == booking.get('tour_id')), None)
         
-        # Get payment URL
-        payment_url = os.environ.get('PAYPAL_PAYMENT_URL', 'https://www.paypal.com/ncp/payment/Q3PQ3TCYUA7L4')
+        # Get payment URL - use tour-specific link if available, otherwise use default
+        payment_url = ''
+        if tour and tour.get('paypal_link'):
+            payment_url = tour['paypal_link']
+        else:
+            payment_url = os.environ.get('PAYPAL_PAYMENT_URL', 'https://www.paypal.com/ncp/payment/Q3PQ3TCYUA7L4')
         
         return render_template('booking_confirmation.html', 
                              booking=booking, 
@@ -188,8 +192,12 @@ def book_tour():
         # Send WhatsApp notification (requires Twilio credentials)
         send_whatsapp_notification(booking_data, tour)
         
-        # PayPal payment link with booking ID
-        payment_url = os.environ.get('PAYPAL_PAYMENT_URL', 'https://www.paypal.com/ncp/payment/Q3PQ3TCYUA7L4')
+        # PayPal payment link - use tour-specific link if available, otherwise use default
+        payment_url = ''
+        if tour and tour.get('paypal_link'):
+            payment_url = tour['paypal_link']
+        else:
+            payment_url = os.environ.get('PAYPAL_PAYMENT_URL', 'https://www.paypal.com/ncp/payment/Q3PQ3TCYUA7L4')
         
         return jsonify({
             'success': True, 
@@ -284,7 +292,8 @@ def admin_add_tour():
             'highlights': (request.form.get('highlights') or '').split('\n'),
             'included': (request.form.get('included') or '').split('\n'),
             'meeting_point_details': request.form.get('meeting_point_details') or '',
-            'languages': (request.form.get('languages') or '').split(',')
+            'languages': (request.form.get('languages') or '').split(','),
+            'paypal_link': request.form.get('paypal_link') or ''
         }
         
         tours.append(new_tour)
@@ -320,6 +329,7 @@ def admin_edit_tour(tour_id):
         tour['included'] = (request.form.get('included') or '').split('\n')
         tour['meeting_point_details'] = request.form.get('meeting_point_details') or tour.get('meeting_point_details', '')
         tour['languages'] = [lang.strip() for lang in (request.form.get('languages') or '').split(',') if lang.strip()]
+        tour['paypal_link'] = request.form.get('paypal_link') or ''
         
         with open('tours.json', 'w') as f:
             json.dump(tours, f, indent=2)
