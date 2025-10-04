@@ -44,6 +44,53 @@ def save_booking(booking_data):
         print(f"Error saving booking: {e}")
         return False
 
+# WhatsApp notification function
+def send_whatsapp_notification(booking_data, tour):
+    try:
+        # Check if Twilio credentials are available
+        twilio_account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+        twilio_auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+        twilio_whatsapp_from = os.environ.get('TWILIO_WHATSAPP_FROM')
+        admin_whatsapp = os.environ.get('ADMIN_WHATSAPP_NUMBER')
+        
+        if not all([twilio_account_sid, twilio_auth_token, twilio_whatsapp_from, admin_whatsapp]):
+            print("WhatsApp notification skipped: Twilio credentials not configured")
+            return False
+        
+        from twilio.rest import Client
+        
+        client = Client(twilio_account_sid, twilio_auth_token)
+        
+        # Format the message
+        message_body = f"""
+🎉 New Tour Booking!
+
+Tour: {tour['title'] if tour else 'Unknown'}
+Customer: {booking_data['user_name']}
+Email: {booking_data['user_email']}
+Phone: {booking_data['user_phone']}
+People: {booking_data['number_of_people']}
+Date/Time: {booking_data['preferred_date_time']}
+
+Special Requests: {booking_data.get('special_requests', 'None')}
+
+Booking ID: {booking_data['booking_id']}
+        """.strip()
+        
+        # Send WhatsApp message
+        message = client.messages.create(
+            from_=f'whatsapp:{twilio_whatsapp_from}',
+            body=message_body,
+            to=f'whatsapp:{admin_whatsapp}'
+        )
+        
+        print(f"WhatsApp notification sent successfully: {message.sid}")
+        return True
+        
+    except Exception as e:
+        print(f"Error sending WhatsApp notification: {e}")
+        return False
+
 @app.route('/')
 def index():
     tours = load_tours()
@@ -109,7 +156,20 @@ def book_tour():
     }
     
     if save_booking(booking_data):
-        return jsonify({'success': True, 'message': 'Booking successful! We will contact you soon to confirm details.'})
+        # Get tour details for the notification
+        tour = next((t for t in tours if t['id'] == tour_id), None)
+        
+        # Send WhatsApp notification (requires Twilio credentials)
+        send_whatsapp_notification(booking_data, tour)
+        
+        # PayPal payment link
+        payment_url = os.environ.get('PAYPAL_PAYMENT_URL', 'https://www.paypal.com/ncp/payment/Q3PQ3TCYUA7L4')
+        
+        return jsonify({
+            'success': True, 
+            'message': 'Booking successful! Redirecting to payment...',
+            'payment_url': payment_url
+        })
     else:
         return jsonify({'success': False, 'message': 'Booking failed due to server error. Please try again or contact us directly.'})
 

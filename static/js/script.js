@@ -142,17 +142,19 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Booking successful! We will contact you soon to confirm the details.');
-                    this.reset();
+                    alert('Booking created! You will now be redirected to PayPal to complete your payment.');
+                    setTimeout(() => {
+                        window.location.href = data.payment_url;
+                    }, 1500);
                 } else {
                     alert(data.message || 'Booking failed. Please try again or contact us directly.');
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('An error occurred. Please try again or contact us directly.');
-            })
-            .finally(() => {
                 submitButton.textContent = originalText;
                 submitButton.disabled = false;
             });
