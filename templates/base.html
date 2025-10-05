@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- SEO Meta Tags -->
     <title>{% block title %}Albania Walk Tour - Discover Albania's Capital{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}Expert guided tours in Albania - Explore Tirana, Albanian Riviera, UNESCO sites. Multi-day adventures with local guides. Book authentic Albanian experiences today!{% endblock %}">
     <meta name="keywords" content="Albania tours, Tirana tours, Albanian Riviera, UNESCO sites Albania, Berat tours, Gjirokaster tours, Albania travel, guided tours Albania, Albania vacation, walking tours Tirana">
     <meta name="author" content="Albania Walk Tour">
     <link rel="canonical" href="{% block canonical %}{{ request.url }}{% endblock %}">
-    
+
     <!-- Open Graph Meta Tags for Social Media -->
     <meta property="og:title" content="{% block og_title %}Albania Walk Tour - Authentic Albanian Adventures{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Discover Albania with expert local guides. Cultural tours, UNESCO sites, Albanian Riviera & more. Personalized experiences for unforgettable memories.{% endblock %}">
@@ -18,13 +18,13 @@
     <meta property="og:url" content="{{ request.url }}">
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:site_name" content="Albania Walk Tour">
-    
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}Albania Walk Tour - Discover Albania{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}Expert guided tours in Albania - UNESCO sites, beaches, culture & cuisine{% endblock %}">
     <meta name="twitter:image" content="{% block twitter_image %}{{ url_for('static', filename='logo.jpeg', _external=True) }}{% endblock %}">
-    
+
     <!-- Additional SEO -->
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow">
@@ -32,11 +32,13 @@
     <meta name="geo.placename" content="Tirana">
     <meta name="geo.position" content="41.3275;19.8187">
     <meta name="ICBM" content="41.3275, 19.8187">
-    
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cookie-consent.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="{{ url_for('static', filename='logo.jpeg') }}" type="image/x-icon">
-    
+
     <!-- Structured Data - Local Business -->
     <script type="application/ld+json">
     {
@@ -88,7 +90,7 @@
                 <a href="{{ url_for('about') }}" class="nav-link">About</a>
                 <a href="#tours" class="nav-link">Tours</a>
                 <a href="#contact" class="nav-link">Contact</a>
-                
+
             </div>
             <div class="hamburger" id="hamburger">
                 <span class="bar"></span>
@@ -119,7 +121,7 @@
             <div class="footer-section">
                 <h4>Contact Info</h4>
                 <p>Email: albaniawalktour@gmail.com</p>
-                <p>Phone: +355 69 9444030</p>
+                <p>Phone: +355 699444030</p>
                 <p>Location: Tirana, Albania</p>
             </div>
         </div>
@@ -200,392 +202,21 @@
         </a>
     </div>
 
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" class="cookie-consent">
+        <div class="cookie-consent-content">
+            <div class="cookie-consent-text">
+                <h3>🍪 We Use Cookies</h3>
+                <p>We use cookies to enhance your experience, analyze site traffic, and for marketing purposes. By clicking "Accept", you consent to our use of cookies. <a href="{{ url_for('about') }}">Learn more</a></p>
+            </div>
+            <div class="cookie-consent-buttons">
+                <button id="cookie-decline" class="cookie-btn cookie-btn-decline">Decline</button>
+                <button id="cookie-accept" class="cookie-btn cookie-btn-accept">Accept</button>
+            </div>
+        </div>
+    </div>
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <script>
-        function toggleTranslateOptions() {
-            const dropdown = document.getElementById('translate-dropdown');
-            if (dropdown) {
-                dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-            }
-        }
-
-        function getOriginalUrl() {
-            // Always return the current page URL, removing any Google Translate parameters
-            let url = window.location.href;
-            
-            // If we're on a translated page, extract the original URL
-            if (url.includes('translate.google.com')) {
-                // Try to extract the original URL from Google Translate
-                const match = url.match(/[?&]u=([^&]+)/);
-                if (match) {
-                    return decodeURIComponent(match[1]);
-                }
-            }
-            
-            return url;
-        }
-
-        function translatePage(event, targetLang) {
-            event.preventDefault();
-            
-            // Close the dropdown
-            const dropdown = document.getElementById('translate-dropdown');
-            if (dropdown) {
-                dropdown.style.display = 'none';
-            }
-            
-            // Get the current page URL (clean version)
-            let originalUrl = getOriginalUrl();
-            
-            // Make sure we have a clean URL without Google Translate artifacts
-            if (originalUrl.includes('translate.google.com') || originalUrl.includes('_x_tr_')) {
-                originalUrl = window.location.origin + window.location.pathname;
-            }
-            
-            // Create translation URL
-            const translateUrl = `https://translate.google.com/translate?sl=auto&tl=${targetLang}&u=${encodeURIComponent(originalUrl)}`;
-            
-            // Navigate to translation
-            window.location.href = translateUrl;
-        }
-
-        function goToOriginal(event) {
-            event.preventDefault();
-            
-            // Close the dropdown
-            const dropdown = document.getElementById('translate-dropdown');
-            if (dropdown) {
-                dropdown.style.display = 'none';
-            }
-            
-            // Get clean original URL
-            let originalUrl = getOriginalUrl();
-            
-            // If still on translate.google.com, go to site root
-            if (originalUrl.includes('translate.google.com')) {
-                originalUrl = window.location.origin;
-            }
-            
-            // Navigate to original URL
-            window.location.href = originalUrl;
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const translateToggle = document.getElementById('translate-toggle');
-            const translateDropdown = document.getElementById('translate-dropdown');
-            
-            if (translateToggle && translateDropdown && 
-                !translateToggle.contains(event.target) && 
-                !translateDropdown.contains(event.target)) {
-                translateDropdown.style.display = 'none';
-            }
-        });
-
-        // Add keyboard support
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const dropdown = document.getElementById('translate-dropdown');
-                const aiPanel = document.getElementById('ai-assistant-panel');
-                if (dropdown && dropdown.style.display === 'block') {
-                    dropdown.style.display = 'none';
-                }
-                if (aiPanel && aiPanel.style.display === 'block') {
-                    aiPanel.style.display = 'none';
-                }
-            }
-        });
-
-        
-
-        // AI Assistant functionality
-        function toggleAIAssistant() {
-            const panel = document.getElementById('ai-assistant-panel');
-            if (panel) {
-                panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-            }
-        }
-
-        function handleAIKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendAIMessage();
-            }
-        }
-
-        function sendAIMessage() {
-            const input = document.getElementById('ai-input');
-            const chatContainer = document.getElementById('ai-chat-container');
-            const message = input.value.trim();
-            
-            if (!message) return;
-
-            // Add user message
-            const userMessage = document.createElement('div');
-            userMessage.className = 'ai-message user';
-            userMessage.textContent = message;
-            chatContainer.appendChild(userMessage);
-
-            // Clear input
-            input.value = '';
-
-            // Add typing indicator
-            const typingMessage = document.createElement('div');
-            typingMessage.className = 'ai-message assistant';
-            typingMessage.innerHTML = 'Thinking... 🤔';
-            chatContainer.appendChild(typingMessage);
-
-            // Scroll to bottom
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-
-            // Simulate AI response
-            setTimeout(() => {
-                chatContainer.removeChild(typingMessage);
-                const aiResponse = generateAIResponse(message.toLowerCase());
-                const assistantMessage = document.createElement('div');
-                assistantMessage.className = 'ai-message assistant';
-                assistantMessage.innerHTML = aiResponse;
-                chatContainer.appendChild(assistantMessage);
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            }, 1500);
-        }
-
-        function generateAIResponse(message) {
-            const tours = [
-                 {
-    id: 'custom-tour-albania',
-    title: 'Your Custom Albania Experience',
-    price: null,
-    duration: 'Flexible',
-    description: 'Design your own Albania adventure tailored to your budget and interests! Choose from cultural, culinary, and nature-focused tours.',
-    keywords: ['custom', 'flexible', 'tailored', 'personalized', 'adventure', 'cultural', 'culinary', 'nature', 'bespoke', 'unique']
-  },
-  {
-    id: 'albania-week-tour',
-    title: 'Albania Discovery Week - 6 Days Complete Tour',
-    price: 450,
-    duration: '6 days / 5 nights',
-    description: "Experience the best of Albania in 6 unforgettable days - from Tirana's history to the Albanian Riviera's stunning beaches.",
-    keywords: ['week', 'multi-day', 'history', 'beach', 'riviera', 'unesco', 'comprehensive', 'tour', 'culture', 'landscape']
-  },
-  {
-    id: 'classic-albania-6-days',
-    title: 'Classic Albania - 6 Days Cultural Journey',
-    price: 475,
-    duration: '6 days / 5 nights',
-    description: "The perfect introduction to Albania - from Tirana's vibrant culture to UNESCO heritage sites and the stunning Albanian Riviera.",
-    keywords: ['classic', 'unesco', 'cultural', 'heritage', 'journey', 'multi-day', 'beach', 'coast', 'tour', 'history']
-  },
-  {
-    id: 'albanian-riviera-5-days',
-    title: 'Albanian Riviera Highlights - 5 Days Beach & Culture',
-    price: 395,
-    duration: '5 days / 4 nights',
-    description: "Explore Albania's stunning coastline from Vlorë to Saranda, including pristine beaches, dramatic mountain passes, and ancient archaeological sites.",
-    keywords: ['riviera', 'beach', 'coastal', 'culture', 'mountains', '5-day', 'heritage', 'seafood', 'unesco', 'tour']
-  },
-  {
-    id: 'southern-cultural-loop',
-    title: 'Southern Cultural Loop - 6 Days Archaeological Journey',
-    price: 425,
-    duration: '6 days / 5 nights',
-    description: "Immerse yourself in Albania's ancient history visiting Apollonia, Berat, Gjirokastër, and Butrint - four UNESCO and archaeological treasures.",
-    keywords: ['southern', 'cultural', 'archaeology', 'unesco', 'heritage', 'history', 'multi-day', 'loop', 'ancient', 'journey']
-  },
-  {
-    id: 'northern-mountains-theth',
-    title: 'Northern Mountains & Theth - 6 Days Alpine Adventure',
-    price: 485,
-    duration: '6 days / 5 nights',
-    description: "Explore Albania's dramatic northern Alps, traditional mountain villages, and pristine wilderness in Theth and Valbona valleys.",
-    keywords: ['northern', 'mountains', 'alpine', 'theth', 'valbona', 'adventure', 'hiking', 'multi-day', 'nature', 'villages']
-  },
-  {
-    id: 'tirana-walking-tour',
-    title: 'Tirana Historical Walking Tour',
-    price: 25,
-    duration: '3 hours',
-    description: "Discover the heart of Albania's capital with our comprehensive walking tour through Tirana's most iconic landmarks.",
-    keywords: ['tirana', 'walking', 'history', 'city', 'landmarks', 'capital', 'tour', 'culture', 'heritage', 'sightseeing']
-  },
-  {
-    id: 'dajti-mountain-adventure',
-    title: 'Dajti Mountain & Cable Car Experience',
-    price: 45,
-    duration: '4 hours',
-    description: 'Take the cable car up Dajti Mountain for breathtaking views of Tirana and the Albanian coastline.',
-    keywords: ['dajti', 'mountain', 'cable car', 'views', 'tirana', 'nature', 'adventure', 'scenic', 'park', 'hiking']
-  },
-  {
-    id: 'food-culture-tour',
-    title: 'Tirana Food & Culture Experience',
-    price: 55,
-    duration: '4.5 hours',
-    description: 'Taste authentic Albanian cuisine while exploring local markets, traditional restaurants, and cultural sites.',
-    keywords: ['food', 'culture', 'tirana', 'cuisine', 'markets', 'culinary', 'tour', 'taste', 'local', 'traditional']
-  },
-  {
-    id: 'tirana-food-culture',
-    title: 'Tirana Food & Culture Immersion',
-    price: 55,
-    duration: '4.5 hours',
-    description: 'Savor authentic Albanian flavors while exploring vibrant markets, traditional eateries, and cultural landmarks.',
-    keywords: ['food', 'culture', 'immersion', 'tirana', 'cuisine', 'markets', 'culinary', 'tour', 'taste', 'local']
-  },
-  {
-    id: 'gjirokaster-culture-tour',
-    title: 'Gjirokastër Cultural & Culinary Expedition',
-    price: 70,
-    duration: '5 hours',
-    description: "Step back in time and savor the authentic tastes of Gjirokastër, a UNESCO World Heritage gem.",
-    keywords: ['gjirokastër', 'cultural', 'culinary', 'unesco', 'heritage', 'expedition', 'taste', 'history', 'tradition', 'city']
-  },
-  {
-    id: 'albanian-coastline-tasting',
-    title: 'Albanian Coastline Seafood Discovery',
-    price: 75,
-    duration: '6 hours',
-    description: "Savor the best of Albania’s coastal cuisine while exploring its stunning seaside towns.",
-    keywords: ['coastline', 'seafood', 'discovery', 'albania', 'coastal', 'tasting', 'cuisine', 'seaside', 'tour', 'food']
-  },
-  {
-    id: 'albanian-wine-tour',
-    title: 'Albanian Wine & Olive Oil Experience',
-    price: 80,
-    duration: '5 hours',
-    description: "Uncover the ancient traditions of Albanian wine-making and olive oil production.",
-    keywords: ['wine', 'olive oil', 'experience', 'tasting', 'tradition', 'albania', 'vineyard', 'cuisine', 'tour', 'heritage']
-  },
-  {
-    id: 'valbona-hiking-tour',
-    title: 'Valbona Valley Hiking & Culinary Escape',
-    price: 90,
-    duration: '7 hours',
-    description: "Embark on a scenic hike through Valbona Valley, followed by a hearty traditional mountain meal.",
-    keywords: ['valbona', 'hiking', 'culinary', 'escape', 'valley', 'alps', 'mountain', 'nature', 'tour', 'adventure']
-  },
-  {
-    id: 'tirana-city-tour',
-    title: 'Tirana City Culture & Culinary Adventure',
-    price: 50,
-    duration: '4 hours',
-    description: 'Discover the cultural heart of Albania while indulging in Tirana’s vibrant food scene.',
-    keywords: ['tirana', 'city', 'culture', 'culinary', 'adventure', 'food', 'heritage', 'tour', 'local', 'explore']
-  },
-  {
-    id: 'berat-wine-tour',
-    title: 'Berat Wine & History Experience',
-    price: 75,
-    duration: '5 hours',
-    description: 'Uncover the rich history of Berat while indulging in its exquisite wines.',
-    keywords: ['berat', 'wine', 'history', 'experience', 'unesco', 'heritage', 'cultural', 'tour', 'vineyard', 'local']
-  },
-  {
-    id: 'butrint-archaeological-tour',
-    title: 'Butrint Archaeological & Cultural Expedition',
-    price: 65,
-    duration: '4 hours',
-    description: 'Explore the UNESCO-listed ruins of Butrint, a fascinating site rich in history and natural beauty.',
-    keywords: ['butrint', 'archaeological', 'cultural', 'unesco', 'ruins', 'history', 'expedition', 'heritage', 'tour', 'ancient']
-  }
-            ];
-
-            let recommendations = [];
-            let personalizedMessage = "";
-
-            // More intelligent keyword matching
-            const keywords = message.toLowerCase().split(' ');
-            
-            // Calculate relevance scores for each tour
-            const tourScores = tours.map(tour => {
-                let score = 0;
-                keywords.forEach(keyword => {
-                    tour.keywords.forEach(tourKeyword => {
-                        if (keyword.includes(tourKeyword) || tourKeyword.includes(keyword)) {
-                            score += 1;
-                        }
-                    });
-                });
-                return { tour, score };
-            });
-
-            // Sort by relevance and get top matches
-            tourScores.sort((a, b) => b.score - a.score);
-            
-            if (tourScores[0].score > 0) {
-                recommendations = tourScores.filter(ts => ts.score > 0).map(ts => ts.tour);
-                if (recommendations.length > 3) recommendations = recommendations.slice(0, 3);
-            } else {
-                // Fallback to pattern matching
-                if (message.includes('day') || message.includes('quick') || message.includes('short') || message.includes('3') || message.includes('three')) {
-                    recommendations.push(tours[0], tours[2]);
-                    personalizedMessage = "I see you're looking for shorter experiences! Here are some great options:";
-                } else if (message.includes('adventure') || message.includes('mountain') || message.includes('hiking') || message.includes('nature')) {
-                    recommendations.push(tours[1]);
-                    personalizedMessage = "Perfect! For adventure lovers, I have just the thing:";
-                } else if (message.includes('food') || message.includes('cuisine') || message.includes('eat') || message.includes('restaurant')) {
-                    recommendations.push(tours[2]);
-                    personalizedMessage = "A fellow food enthusiast! You'll love this culinary experience:";
-                } else if (message.includes('week') || message.includes('long') || message.includes('complete') || message.includes('everything') || message.includes('6') || message.includes('six')) {
-                    recommendations.push(tours[3]);
-                    personalizedMessage = "For the ultimate Albanian adventure, this comprehensive tour is perfect:";
-                } else if (message.includes('history') || message.includes('culture') || message.includes('historical') || message.includes('museum')) {
-                    recommendations.push(tours[0], tours[3]);
-                    personalizedMessage = "Great choice! History and culture enthusiasts will enjoy these tours:";
-                } else if (message.includes('budget') || message.includes('cheap') || message.includes('affordable')) {
-                    recommendations = tours.sort((a, b) => a.price - b.price).slice(0, 2);
-                    personalizedMessage = "Here are our most budget-friendly options:";
-                } else if (message.includes('luxury') || message.includes('premium') || message.includes('best')) {
-                    recommendations.push(tours[3], tours[1]);
-                    personalizedMessage = "For a premium experience, these tours offer the best value:";
-                } else {
-                    recommendations.push(tours[0], tours[2]);
-                    personalizedMessage = "Here are our most popular tours to get you started:";
-                }
-            }
-
-            let response = personalizedMessage || "Based on your request, I recommend these tours:";
-            response += "\n\n";
-            
-            recommendations.forEach(tour => {
-                response += `<div class="tour-recommendation" onclick="window.location.href='/tour/${tour.id}'" style="cursor: pointer;">
-                    <h4>${tour.title}</h4>
-                    <p><strong>€${tour.price}</strong> • ${tour.duration}</p>
-                    <p>${tour.description}</p>
-                    <div class="tour-actions">
-                        <button onclick="event.stopPropagation(); window.location.href='/tour/${tour.id}'" class="tour-link-btn">View Details & Book</button>
-                    </div>
-                </div>`;
-            });
-
-            // Add helpful follow-up suggestions
-            if (recommendations.length === 1) {
-                response += "\n\n💡 Want to see more options? Try asking about: 'show me all tours' or 'what else do you have?'";
-            } else {
-                response += "\n\n💡 Need help deciding? Ask me: 'which tour is best for families?' or 'what's the difference between these tours?'";
-            }
-
-            return response;
-        }
-
-        // Close AI panel when clicking outside
-        document.addEventListener('click', function(event) {
-            const aiToggle = document.getElementById('ai-assistant-toggle');
-            const aiPanel = document.getElementById('ai-assistant-panel');
-            const translateToggle = document.getElementById('translate-toggle');
-            const translateDropdown = document.getElementById('translate-dropdown');
-            
-            if (aiToggle && aiPanel && 
-                !aiToggle.contains(event.target) && 
-                !aiPanel.contains(event.target)) {
-                aiPanel.style.display = 'none';
-            }
-            
-            if (translateToggle && translateDropdown && 
-                !translateToggle.contains(event.target) && 
-                !translateDropdown.contains(event.target)) {
-                translateDropdown.style.display = 'none';
-            }
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/cookie-consent.js') }}"></script>
 </body>
 </html>
