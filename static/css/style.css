@@ -999,25 +999,32 @@ section h2 {
     display: flex;
     gap: 8px;
     align-items: center;
+    width: 100%;
 }
 
 .country-code-select {
-    width: 80px;
-    padding: 12px 10px;
-    border: 1px solid #d2d2d7;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    background: white;
-    cursor: pointer;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.phone-input-wrapper input[type="tel"] {
-    flex: 1;
-    min-width: 0;
-    padding: 12px 15px;
+    flex: 0 0 80px; /* Fixed width, no grow */
+    padding: 10px;
     border: 1px solid #d2d2d7;
     border-radius: 10px;
     font-size: 1rem;
+    background: white;
+    text-align: center;
+}
+
+.phone-input-wrapper input[type="tel"] {
+    flex: 1; /* Takes remaining space */
+    padding: 12px 15px;
+    border: 1px solid #d2d2d7;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+/* Make the placeholder text larger */
+.phone-input-wrapper input[type="tel"]::placeholder {
+    font-size: 1.2rem;
+    color: #999;
+}
+
 }
