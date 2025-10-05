@@ -492,16 +492,18 @@
 
 .phone-input-wrapper {
     display: flex;
-    gap: 8px;
-    align-items: stretch;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
 }
 
 .country-code-select {
-    width: 85px;
-    padding: 12px 10px;
+    width: 90px;
+    min-width: 90px;
+    padding: 12px 8px;
     border: 1px solid #d2d2d7;
     border-radius: 10px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     background: white;
     cursor: pointer;
     text-align: center;
@@ -511,10 +513,11 @@
 .phone-input-wrapper input[type="tel"] {
     flex: 1;
     min-width: 0;
-    padding: 12px 15px;
-    border: 1px solid #d2d2d7;
-    border-radius: 10px;
-    font-size: 1rem;
+    width: 100%;
+    padding: 12px 15px !important;
+    border: 1px solid #d2d2d7 !important;
+    border-radius: 10px !important;
+    font-size: 1rem !important;
 }
 
 @media (max-width: 768px) {
