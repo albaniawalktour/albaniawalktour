@@ -48,10 +48,22 @@
         }
     }
 
+    // Track consent decision
+    function trackConsent(status) {
+        fetch('/api/cookie-consent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: status })
+        }).catch(err => console.error('Failed to track cookie consent:', err));
+    }
+
     // Accept cookies
     function acceptCookies() {
         setCookie(COOKIE_NAME, 'accepted', COOKIE_EXPIRY_DAYS);
         hideCookieBanner();
+        trackConsent('accepted');
         
         // Initialize analytics or other tracking here if needed
         console.log('Cookies accepted');
@@ -61,6 +73,7 @@
     function declineCookies() {
         setCookie(COOKIE_NAME, 'declined', COOKIE_EXPIRY_DAYS);
         hideCookieBanner();
+        trackConsent('declined');
         
         // Disable analytics or other tracking here if needed
         console.log('Cookies declined');

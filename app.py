@@ -44,6 +44,28 @@ def save_booking(booking_data):
         print(f"Error saving booking: {e}")
         return False
 
+# Save cookie consent data
+def save_cookie_consent(consent_data):
+    try:
+        # Load existing consent records
+        if os.path.exists('cookie_consents.json'):
+            with open('cookie_consents.json', 'r') as f:
+                consents = json.load(f)
+        else:
+            consents = []
+
+        # Add new consent record
+        consents.append(consent_data)
+
+        # Save back to file
+        with open('cookie_consents.json', 'w') as f:
+            json.dump(consents, f, indent=2)
+
+        return True
+    except Exception as e:
+        print(f"Error saving cookie consent: {e}")
+        return False
+
 # WhatsApp notification function
 def send_whatsapp_notification(booking_data, tour):
     try:
@@ -163,6 +185,22 @@ def booking_confirmation(booking_id):
                              meta_tags=meta_tags)
     except FileNotFoundError:
         return render_template('booking_not_found.html'), 404
+
+@app.route('/api/cookie-consent', methods=['POST'])
+def track_cookie_consent():
+    try:
+        consent_data = {
+            'timestamp': datetime.now().isoformat(),
+            'status': request.json.get('status', 'unknown'),
+            'ip_address': request.headers.get('X-Forwarded-For', request.remote_addr),
+            'user_agent': request.headers.get('User-Agent', 'Unknown')
+        }
+        
+        save_cookie_consent(consent_data)
+        return jsonify({'success': True})
+    except Exception as e:
+        print(f"Error tracking cookie consent: {e}")
+        return jsonify({'success': False}), 500
 
 @app.route('/book', methods=['POST'])
 def book_tour():
@@ -444,6 +482,41 @@ def admin_bookings():
         'robots': 'noindex, nofollow'
     }
     return render_template('admin/bookings.html', bookings=bookings, meta_tags=meta_tags)
+
+@app.route('/admin/cookies')
+@admin_required
+def admin_cookies():
+    try:
+        with open('cookie_consents.json', 'r') as f:
+            cookie_records = json.load(f)
+    except FileNotFoundError:
+        cookie_records = []
+
+    # Calculate statistics
+    total = len(cookie_records)
+    accepted = sum(1 for r in cookie_records if r.get('status') == 'accepted')
+    declined = sum(1 for r in cookie_records if r.get('status') == 'declined')
+    acceptance_rate = round((accepted / total * 100) if total > 0 else 0, 1)
+
+    cookie_stats = {
+        'total': total,
+        'accepted': accepted,
+        'declined': declined,
+        'acceptance_rate': acceptance_rate
+    }
+
+    # Sort records by timestamp (most recent first)
+    cookie_records.sort(key=lambda x: x.get('timestamp', ''), reverse=True)
+
+    # Add meta tags for admin cookies page SEO (prevent indexing)
+    meta_tags = {
+        'title': 'Cookie Consent - Albania Walk Tours',
+        'robots': 'noindex, nofollow'
+    }
+    return render_template('admin/cookies.html', 
+                         cookie_stats=cookie_stats, 
+                         cookie_records=cookie_records[:50],  # Show last 50 records
+                         meta_tags=meta_tags)
 
 @app.route('/admin/bookings/delete/<booking_id>', methods=['POST'])
 @admin_required
