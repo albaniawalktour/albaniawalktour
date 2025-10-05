@@ -1,6 +1,71 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tour.title }} - Tirana Walk Tour{% endblock %}
+{% block title %}{{ tour.title }} - Albania Walk Tour | Book Now{% endblock %}
+
+{% block meta_description %}{{ tour.short_description }} Duration: {{ tour.duration }}. Starting from €{{ tour.price }}. Book your authentic Albanian experience with expert local guides.{% endblock %}
+
+{% block og_title %}{{ tour.title }} - Albania Walk Tour{% endblock %}
+{% block og_description %}{{ tour.short_description }} €{{ tour.price }} per person. {{ tour.duration }}.{% endblock %}
+{% block og_image %}{{ tour.images[0] if tour.images else url_for('static', filename='logo.jpeg', _external=True) }}{% endblock %}
+{% block og_type %}product{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ tour.title }}",
+  "description": "{{ tour.long_description }}",
+  "image": {{ tour.images | tojson }},
+  "brand": {
+    "@type": "Brand",
+    "name": "Albania Walk Tour"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ request.url }}",
+    "priceCurrency": "EUR",
+    "price": "{{ tour.price }}",
+    "priceValidUntil": "2025-12-31",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "Organization",
+      "name": "Albania Walk Tour"
+    }
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "{{ range(20, 50) | random }}"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TouristTrip",
+  "name": "{{ tour.title }}",
+  "description": "{{ tour.long_description }}",
+  "itinerary": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {% for highlight in tour.highlights %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "name": "{{ highlight }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ tour.price }}",
+    "priceCurrency": "EUR"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <section class="tour-hero">

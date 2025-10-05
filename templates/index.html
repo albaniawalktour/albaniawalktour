@@ -1,6 +1,27 @@
 
 {% extends "base.html" %}
 
+{% block meta_description %}Discover Albania with expert local guides. Multi-day tours, UNESCO heritage sites, Albanian Riviera beaches, cultural experiences. Book your authentic Albanian adventure today!{% endblock %}
+
+{% block og_title %}Albania Walk Tour - Your Personal Trip Advisor in Albania{% endblock %}
+{% block og_description %}Expert guided tours in Tirana, Berat, Gjirokaster, Albanian Riviera. UNESCO sites, cultural immersion, culinary adventures. Personalized experiences with local guides.{% endblock %}
+
+{% block extra_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Albania Walk Tour",
+  "url": "{{ request.url_root }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ request.url_root }}#tours?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <!-- Hero Section -->
 <section class="hero">

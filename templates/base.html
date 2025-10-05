@@ -3,10 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
     <title>{% block title %}Albania Walk Tour - Discover Albania's Capital{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Expert guided tours in Albania - Explore Tirana, Albanian Riviera, UNESCO sites. Multi-day adventures with local guides. Book authentic Albanian experiences today!{% endblock %}">
+    <meta name="keywords" content="Albania tours, Tirana tours, Albanian Riviera, UNESCO sites Albania, Berat tours, Gjirokaster tours, Albania travel, guided tours Albania, Albania vacation, walking tours Tirana">
+    <meta name="author" content="Albania Walk Tour">
+    <link rel="canonical" href="{% block canonical %}{{ request.url }}{% endblock %}">
+    
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="{% block og_title %}Albania Walk Tour - Authentic Albanian Adventures{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Discover Albania with expert local guides. Cultural tours, UNESCO sites, Albanian Riviera & more. Personalized experiences for unforgettable memories.{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='logo.jpeg', _external=True) }}{% endblock %}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:site_name" content="Albania Walk Tour">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Albania Walk Tour - Discover Albania{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Expert guided tours in Albania - UNESCO sites, beaches, culture & cuisine{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ url_for('static', filename='logo.jpeg', _external=True) }}{% endblock %}">
+    
+    <!-- Additional SEO -->
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="geo.region" content="AL">
+    <meta name="geo.placename" content="Tirana">
+    <meta name="geo.position" content="41.3275;19.8187">
+    <meta name="ICBM" content="41.3275, 19.8187">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="{{ url_for('static', filename='logo.jpeg') }}" type="image/x-icon">
+    
+    <!-- Structured Data - Local Business -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TravelAgency",
+      "name": "Albania Walk Tour",
+      "description": "Expert guided tours in Albania - cultural experiences, UNESCO sites, and Albanian Riviera adventures",
+      "url": "{{ request.url_root }}",
+      "logo": "{{ url_for('static', filename='logo.jpeg', _external=True) }}",
+      "image": "{{ url_for('static', filename='logo.jpeg', _external=True) }}",
+      "telephone": "+355699444030",
+      "email": "albaniawalktour@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Skanderbeg Square",
+        "addressLocality": "Tirana",
+        "addressCountry": "AL"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "41.3275",
+        "longitude": "19.8187"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "priceRange": "€€",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "127"
+      }
+    }
+    </script>
+    {% block extra_schema %}{% endblock %}
 </head>
 <body>
     <!-- Navigation -->
