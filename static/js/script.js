@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             // Basic client-side validation
-            const requiredFields = ['user_name', 'user_email', 'user_phone', 'preferred_date_time', 'number_of_people'];
+            const requiredFields = ['user_name', 'user_email', 'user_phone', 'preferred_date_time', 'number_of_people', 'country_code'];
             let isValid = true;
             
             requiredFields.forEach(fieldName => {
@@ -134,6 +134,11 @@ document.addEventListener('DOMContentLoaded', function() {
             submitButton.disabled = true;
             
             const formData = new FormData(this);
+            
+            // Combine country code with phone number
+            const countryCode = this.querySelector('[name="country_code"]').value;
+            const phoneNumber = this.querySelector('[name="user_phone"]').value;
+            formData.set('user_phone', countryCode + ' ' + phoneNumber);
             
             fetch('/book', {
                 method: 'POST',
