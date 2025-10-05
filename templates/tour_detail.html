@@ -424,22 +424,29 @@
 
 .phone-input-wrapper {
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    align-items: stretch;
 }
 
 .country-code-select {
-    width: 70px;
-    padding: 12px 8px;
+    width: 85px;
+    padding: 12px 10px;
     border: 1px solid #d2d2d7;
     border-radius: 10px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     background: white;
     cursor: pointer;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .phone-input-wrapper input[type="tel"] {
     flex: 1;
+    min-width: 0;
+    padding: 12px 15px;
+    border: 1px solid #d2d2d7;
+    border-radius: 10px;
+    font-size: 1rem;
 }
 
 @media (max-width: 768px) {
