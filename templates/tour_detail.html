@@ -154,19 +154,48 @@
 
                         <div class="form-group">
                             <label for="user_phone">Phone Number *</label>
-                            <input type="tel" id="user_phone" name="user_phone" required>
+                            <div class="phone-input-wrapper">
+                                <select id="country_code" name="country_code" class="country-code-select" required>
+                                    <option value="+355">🇦🇱</option>
+                                    <option value="+1">🇺🇸</option>
+                                    <option value="+44">🇬🇧</option>
+                                    <option value="+49">🇩🇪</option>
+                                    <option value="+33">🇫🇷</option>
+                                    <option value="+39">🇮🇹</option>
+                                    <option value="+34">🇪🇸</option>
+                                    <option value="+31">🇳🇱</option>
+                                    <option value="+32">🇧🇪</option>
+                                    <option value="+41">🇨🇭</option>
+                                    <option value="+43">🇦🇹</option>
+                                    <option value="+45">🇩🇰</option>
+                                    <option value="+46">🇸🇪</option>
+                                    <option value="+47">🇳🇴</option>
+                                    <option value="+48">🇵🇱</option>
+                                    <option value="+351">🇵🇹</option>
+                                    <option value="+30">🇬🇷</option>
+                                    <option value="+90">🇹🇷</option>
+                                    <option value="+7">🇷🇺</option>
+                                    <option value="+86">🇨🇳</option>
+                                    <option value="+81">🇯🇵</option>
+                                    <option value="+82">🇰🇷</option>
+                                    <option value="+91">🇮🇳</option>
+                                    <option value="+61">🇦🇺</option>
+                                    <option value="+64">🇳🇿</option>
+                                    <option value="+27">🇿🇦</option>
+                                    <option value="+20">🇪🇬</option>
+                                    <option value="+971">🇦🇪</option>
+                                    <option value="+966">🇸🇦</option>
+                                    <option value="+55">🇧🇷</option>
+                                    <option value="+52">🇲🇽</option>
+                                    <option value="+54">🇦🇷</option>
+                                </select>
+                                <input type="tel" id="user_phone" name="user_phone" placeholder="123 456 789" required>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="preferred_date_time">Preferred Date & Time *</label>
-                            <select id="preferred_date_time" name="preferred_date_time" required>
-                                <option value="">Select a date & time</option>
-                                {% for schedule in tour.schedule %}
-                                <option value="{{ schedule }}">
-                                    {{ schedule[:10] }} at {{ schedule[11:16] }}
-                                </option>
-                                {% endfor %}
-                            </select>
+                            <label for="preferred_date">Preferred Date *</label>
+                            <input type="date" id="preferred_date" name="preferred_date_time" required min="{{ tour.schedule[0][:10] if tour.schedule else '' }}">
                         </div>
 
                         <div class="form-group">
@@ -391,6 +420,26 @@
 
 .info-item:last-child {
     border-bottom: none;
+}
+
+.phone-input-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.country-code-select {
+    width: 70px;
+    padding: 12px 8px;
+    border: 1px solid #d2d2d7;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    background: white;
+    cursor: pointer;
+    text-align: center;
+}
+
+.phone-input-wrapper input[type="tel"] {
+    flex: 1;
 }
 
 @media (max-width: 768px) {

@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             // Basic client-side validation
-            const requiredFields = ['user_name', 'user_email', 'user_phone', 'preferred_date_time', 'number_of_people'];
+            const requiredFields = ['user_name', 'user_email', 'user_phone', 'number_of_people', 'country_code'];
             let isValid = true;
             
             requiredFields.forEach(fieldName => {
@@ -113,6 +113,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     field.style.borderColor = '#d2d2d7';
                 }
             });
+            
+            // Validate preferred_date_time separately (could be date input)
+            const dateField = this.querySelector('[name="preferred_date_time"]');
+            if (!dateField || !dateField.value) {
+                isValid = false;
+                if (dateField) dateField.style.borderColor = '#ff3b30';
+            } else {
+                if (dateField) dateField.style.borderColor = '#d2d2d7';
+            }
             
             // Email validation
             const email = this.querySelector('[name="user_email"]');
@@ -134,6 +143,11 @@ document.addEventListener('DOMContentLoaded', function() {
             submitButton.disabled = true;
             
             const formData = new FormData(this);
+            
+            // Combine country code with phone number
+            const countryCode = this.querySelector('[name="country_code"]').value;
+            const phoneNumber = this.querySelector('[name="user_phone"]').value;
+            formData.set('user_phone', countryCode + ' ' + phoneNumber);
             
             fetch('/book', {
                 method: 'POST',
