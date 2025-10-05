@@ -486,6 +486,59 @@ section h2 {
     border-radius: 20px;
     font-size: 0.9rem;
     outline: none;
+}
+
+.ai-input-container input:focus {
+    border-color: #10b981;
+}
+
+.ai-send-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.ai-send-btn:hover {
+    background: #059669;
+}
+
+.ai-chat-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ai-chat-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+.ai-chat-container::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.3);
+    border-radius: 10px;
+}
+
+.ai-chat-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 185, 129, 0.5);
+}
+
+.ai-input-container {
+    padding: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 10px;
+}
+
+.ai-input-container input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    outline: none;
     transition: border-color 0.3s ease;
 }
 

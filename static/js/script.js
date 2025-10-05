@@ -172,3 +172,138 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Translation Functions
+function toggleTranslateOptions() {
+    const dropdown = document.getElementById('translate-dropdown');
+    if (dropdown) {
+        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+function translatePage(event, lang) {
+    event.preventDefault();
+    const currentUrl = window.location.href;
+    const googleTranslateUrl = `https://translate.google.com/translate?sl=auto&tl=${lang}&u=${encodeURIComponent(currentUrl)}`;
+    window.location.href = googleTranslateUrl;
+}
+
+function goToOriginal(event) {
+    event.preventDefault();
+    // Remove any Google Translate parameters from URL
+    const currentUrl = window.location.href;
+    const cleanUrl = currentUrl.split('?')[0];
+    window.location.href = cleanUrl;
+}
+
+// Close translate dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const translateToggle = document.getElementById('translate-toggle');
+    const translateDropdown = document.getElementById('translate-dropdown');
+    
+    if (translateToggle && translateDropdown && 
+        !translateToggle.contains(event.target) && 
+        !translateDropdown.contains(event.target)) {
+        translateDropdown.style.display = 'none';
+    }
+});
+
+// AI Assistant Functions
+function toggleAIAssistant() {
+    const panel = document.getElementById('ai-assistant-panel');
+    if (panel) {
+        panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+    }
+}
+
+function handleAIKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendAIMessage();
+    }
+}
+
+function sendAIMessage() {
+    const input = document.getElementById('ai-input');
+    const chatContainer = document.getElementById('ai-chat-container');
+    
+    if (!input || !chatContainer) return;
+    
+    const message = input.value.trim();
+    if (!message) return;
+    
+    // Add user message to chat
+    const userMessageDiv = document.createElement('div');
+    userMessageDiv.className = 'ai-message user';
+    userMessageDiv.textContent = message;
+    chatContainer.appendChild(userMessageDiv);
+    
+    // Clear input
+    input.value = '';
+    
+    // Scroll to bottom
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    
+    // Simulate AI response (you can replace this with actual API call)
+    setTimeout(() => {
+        const assistantMessage = generateAIResponse(message.toLowerCase());
+        const assistantMessageDiv = document.createElement('div');
+        assistantMessageDiv.className = 'ai-message assistant';
+        assistantMessageDiv.innerHTML = assistantMessage;
+        chatContainer.appendChild(assistantMessageDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }, 1000);
+}
+
+function generateAIResponse(userMessage) {
+    // Simple keyword-based responses - you can enhance this with actual AI
+    if (userMessage.includes('1 day') || userMessage.includes('one day')) {
+        return `I recommend our <strong>Tirana Food & Culture Experience</strong> - a perfect day exploring local cuisine and culture! <br><br>
+                <a href="/tour/food-culture-tour" class="tour-link">View Tour Details</a>`;
+    }
+    
+    if (userMessage.includes('beach') || userMessage.includes('coast') || userMessage.includes('riviera')) {
+        return `For beach lovers, check out our <strong>Albanian Riviera tours</strong>! Crystal clear waters and stunning coastlines await. <br><br>
+                <a href="/#tours" class="tour-link">Browse Beach Tours</a>`;
+    }
+    
+    if (userMessage.includes('history') || userMessage.includes('historical') || userMessage.includes('unesco')) {
+        return `Perfect! Try our <strong>Butrint Archaeological Tour</strong> or <strong>Berat Wine & Culture Tour</strong> - both feature UNESCO World Heritage sites! <br><br>
+                <a href="/tour/butrint-archaeological-tour" class="tour-link">View Archaeological Tour</a>`;
+    }
+    
+    if (userMessage.includes('mountain') || userMessage.includes('hiking') || userMessage.includes('nature')) {
+        return `Nature enthusiast? Our <strong>Dajti Mountain Adventure</strong> offers stunning views and hiking trails! <br><br>
+                <a href="/tour/dajti-mountain-adventure" class="tour-link">Explore Mountain Tour</a>`;
+    }
+    
+    if (userMessage.includes('week') || userMessage.includes('7 day') || userMessage.includes('multi')) {
+        return `For a comprehensive experience, try our <strong>7-Day Albania Grand Tour</strong> - covering the best of Albania! <br><br>
+                <a href="/tour/7-day-albania-grand-tour" class="tour-link">View 7-Day Tour</a>`;
+    }
+    
+    if (userMessage.includes('custom') || userMessage.includes('personalized') || userMessage.includes('design')) {
+        return `We can create a <strong>Custom Tour</strong> tailored to your interests and budget! <br><br>
+                <a href="/tour/custom-tour-albania" class="tour-link">Design Your Tour</a>`;
+    }
+    
+    // Default response
+    return `Great question! Based on your interests, I'd recommend browsing our tour collection. We offer:
+            <br>• Cultural & Historical Tours
+            <br>• Food & Wine Experiences  
+            <br>• Nature & Adventure Tours
+            <br>• Beach & Coastal Trips
+            <br>• Custom Personalized Tours
+            <br><br>What type of experience interests you most? Or <a href="/#tours" class="tour-link">browse all tours</a>`;
+}
+
+// Close AI panel when clicking outside
+document.addEventListener('click', function(event) {
+    const aiToggle = document.getElementById('ai-assistant-toggle');
+    const aiPanel = document.getElementById('ai-assistant-panel');
+    
+    if (aiToggle && aiPanel && 
+        !aiToggle.contains(event.target) && 
+        !aiPanel.contains(event.target)) {
+        aiPanel.style.display = 'none';
+    }
+});
