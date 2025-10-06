@@ -194,26 +194,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="preferred_date">Preferred Date *</label>
-                            <input type="date" id="preferred_date" name="preferred_date_time" required min="{{ tour.schedule[0][:10] if tour.schedule else '' }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="number_of_people">Number of People * (Minimum: {{ tour.min_booking if tour.min_booking else 1 }})</label>
-                            <input type="number" id="number_of_people" name="number_of_people" 
-                                   min="{{ tour.min_booking if tour.min_booking else 1 }}" 
-                                   max="20" 
-                                   value="{{ tour.min_booking if tour.min_booking else 1 }}" 
-                                   required>
-                            {% if tour.min_booking and tour.min_booking > 1 %}
-                            <small style="color: #0071e3; display: block; margin-top: 5px;">
-                                This tour requires a minimum of {{ tour.min_booking }} people
-                            </small>
-                            {% endif %}
-                        </div>
-
-                        <div class="form-group">
-                            <label for="preferred_date_time">Preferred Date & Time *</label>
+                            <label for="preferred_date_time">Preferred Date *</label>
                             {% if tour.dates_data and tour.dates_data|length > 0 %}
                             <select id="preferred_date_time" name="preferred_date_time" required>
                                 <option value="">Select an available date</option>
@@ -240,6 +221,20 @@
                             </small>
                             {% else %}
                             <input type="date" id="preferred_date_time" name="preferred_date_time" required>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="number_of_people">Number of People * (Minimum: {{ tour.min_booking if tour.min_booking else 1 }})</label>
+                            <input type="number" id="number_of_people" name="number_of_people" 
+                                   min="{{ tour.min_booking if tour.min_booking else 1 }}" 
+                                   max="20" 
+                                   value="{{ tour.min_booking if tour.min_booking else 1 }}" 
+                                   required>
+                            {% if tour.min_booking and tour.min_booking > 1 %}
+                            <small style="color: #0071e3; display: block; margin-top: 5px;">
+                                This tour requires a minimum of {{ tour.min_booking }} people
+                            </small>
                             {% endif %}
                         </div>
 
