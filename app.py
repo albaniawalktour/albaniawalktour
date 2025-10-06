@@ -513,6 +513,18 @@ def admin_manage_tour_dates(tour_id):
     if not tour:
         flash('Tour not found')
         return redirect(url_for('admin_tours'))
+    
+    # Initialize dates_data if it doesn't exist
+    if 'dates_data' not in tour:
+        tour['dates_data'] = []
+    
+    # Initialize min_booking if it doesn't exist
+    if 'min_booking' not in tour:
+        tour['min_booking'] = 2
+    
+    # Initialize booking_status if it doesn't exist
+    if 'booking_status' not in tour:
+        tour['booking_status'] = 'open'
 
     if request.method == 'POST':
         # Get minimum booking requirement

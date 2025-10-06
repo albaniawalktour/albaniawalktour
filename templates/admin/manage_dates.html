@@ -143,7 +143,7 @@
     
     <script>
         // Parse existing dates data
-        const existingDates = {{ tour.dates_data | tojson | safe }} || [];
+        const existingDates = {{ (tour.dates_data if tour.dates_data else []) | tojson | safe }};
         
         function addDateRow(date = '', enabled = true) {
             const container = document.getElementById('dates-manager');
