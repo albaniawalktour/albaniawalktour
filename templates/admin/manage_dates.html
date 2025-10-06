@@ -6,6 +6,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Dates - {{ tour.title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <style>
+        .dates-manager {
+            margin-top: 20px;
+        }
+        .date-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .date-item input[type="date"] {
+            flex: 1;
+        }
+        .date-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+        .date-item button {
+            padding: 8px 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .date-item button:hover {
+            background: #c82333;
+        }
+        .add-date-btn {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .add-date-btn:hover {
+            background: #218838;
+        }
+        .date-status {
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .status-enabled {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-disabled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
@@ -37,7 +94,7 @@
                 {% endif %}
             {% endwith %}
             
-            <form method="POST" class="tour-form">
+            <form method="POST" class="tour-form" id="dates-form">
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="min_booking">Minimum Booking (People) *</label>
@@ -61,12 +118,18 @@
                     </div>
                     
                     <div class="form-group full-width">
-                        <label for="available_dates">Available Dates (one per line)</label>
-                        <textarea id="available_dates" name="available_dates" rows="10" 
-                                  placeholder="2025-10-15&#10;2025-10-20&#10;2025-10-25">{{ tour.available_dates|join('\n') if tour.available_dates else '' }}</textarea>
-                        <small style="color: #666; display: block; margin-top: 5px;">
-                            Format: YYYY-MM-DD (one date per line). Leave empty to allow any date.
+                        <label>Available Dates Manager</label>
+                        <small style="color: #666; display: block; margin-bottom: 10px;">
+                            Add dates and check/uncheck to enable/disable them for booking
                         </small>
+                        
+                        <div class="dates-manager" id="dates-manager">
+                            <!-- Dates will be added here dynamically -->
+                        </div>
+                        
+                        <button type="button" class="add-date-btn" onclick="addDateRow()">+ Add Date</button>
+                        
+                        <input type="hidden" name="dates_data" id="dates-data-input">
                     </div>
                 </div>
                 
@@ -77,5 +140,79 @@
             </form>
         </main>
     </div>
+    
+    <script>
+        // Parse existing dates data
+        const existingDates = {{ tour.dates_data | tojson | safe }} || [];
+        
+        function addDateRow(date = '', enabled = true) {
+            const container = document.getElementById('dates-manager');
+            const dateItem = document.createElement('div');
+            dateItem.className = 'date-item';
+            
+            const dateInput = document.createElement('input');
+            dateInput.type = 'date';
+            dateInput.value = date;
+            dateInput.required = true;
+            
+            const enabledCheckbox = document.createElement('input');
+            enabledCheckbox.type = 'checkbox';
+            enabledCheckbox.checked = enabled;
+            enabledCheckbox.title = 'Enable/Disable this date';
+            
+            const statusLabel = document.createElement('span');
+            statusLabel.className = `date-status ${enabled ? 'status-enabled' : 'status-disabled'}`;
+            statusLabel.textContent = enabled ? 'Enabled' : 'Disabled';
+            
+            enabledCheckbox.addEventListener('change', function() {
+                statusLabel.textContent = this.checked ? 'Enabled' : 'Disabled';
+                statusLabel.className = `date-status ${this.checked ? 'status-enabled' : 'status-disabled'}`;
+            });
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.textContent = 'Remove';
+            removeBtn.onclick = function() {
+                container.removeChild(dateItem);
+            };
+            
+            dateItem.appendChild(dateInput);
+            dateItem.appendChild(enabledCheckbox);
+            dateItem.appendChild(statusLabel);
+            dateItem.appendChild(removeBtn);
+            
+            container.appendChild(dateItem);
+        }
+        
+        // Load existing dates
+        if (existingDates.length > 0) {
+            existingDates.forEach(dateObj => {
+                addDateRow(dateObj.date, dateObj.enabled);
+            });
+        } else {
+            // Add one empty row by default
+            addDateRow();
+        }
+        
+        // Before form submission, collect all dates data
+        document.getElementById('dates-form').addEventListener('submit', function(e) {
+            const dateItems = document.querySelectorAll('.date-item');
+            const datesData = [];
+            
+            dateItems.forEach(item => {
+                const dateInput = item.querySelector('input[type="date"]');
+                const enabledCheckbox = item.querySelector('input[type="checkbox"]');
+                
+                if (dateInput.value) {
+                    datesData.push({
+                        date: dateInput.value,
+                        enabled: enabledCheckbox.checked
+                    });
+                }
+            });
+            
+            document.getElementById('dates-data-input').value = JSON.stringify(datesData);
+        });
+    </script>
 </body>
 </html>

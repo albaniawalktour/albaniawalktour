@@ -246,12 +246,29 @@ def book_tour():
         if booking_status != 'open':
             errors.append('Booking is currently closed for this tour')
         
-        # Check if selected date is available (if available_dates is set)
+        # Check if selected date is available and enabled
         preferred_date = request.form.get('preferred_date_time', '').strip()
-        available_dates = tour.get('available_dates', [])
-        if available_dates and preferred_date:
+        dates_data = tour.get('dates_data', [])
+        
+        if dates_data and preferred_date:
             date_only = preferred_date.split('T')[0] if 'T' in preferred_date else preferred_date.split(' ')[0]
-            if date_only not in available_dates:
+            # Check if date exists and is enabled
+            date_found = False
+            date_enabled = False
+            for date_obj in dates_data:
+                if date_obj.get('date') == date_only:
+                    date_found = True
+                    date_enabled = date_obj.get('enabled', True)
+                    break
+            
+            if not date_found:
+                errors.append('Selected date is not available for booking')
+            elif not date_enabled:
+                errors.append('Selected date is currently disabled. Please choose another date')
+        elif tour.get('available_dates') and preferred_date:
+            # Backward compatibility check
+            date_only = preferred_date.split('T')[0] if 'T' in preferred_date else preferred_date.split(' ')[0]
+            if date_only not in tour.get('available_dates', []):
                 errors.append('Selected date is not available for booking')
 
     if errors:
@@ -501,14 +518,20 @@ def admin_manage_tour_dates(tour_id):
         # Get minimum booking requirement
         min_booking = int(request.form.get('min_booking', 2))
         
-        # Get available dates from form
-        available_dates = request.form.get('available_dates', '')
-        dates_list = [d.strip() for d in available_dates.split('\n') if d.strip()]
+        # Get dates data as JSON
+        dates_data_str = request.form.get('dates_data', '[]')
+        try:
+            dates_data = json.loads(dates_data_str)
+        except:
+            dates_data = []
         
         # Update tour with new fields
         tour['min_booking'] = min_booking
-        tour['available_dates'] = dates_list
+        tour['dates_data'] = dates_data
         tour['booking_status'] = request.form.get('booking_status', 'open')
+        
+        # Keep backward compatibility with available_dates
+        tour['available_dates'] = [d['date'] for d in dates_data if d.get('enabled', True)]
         
         try:
             with open('tours.json', 'w') as f:
