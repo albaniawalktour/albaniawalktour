@@ -231,8 +231,28 @@ def book_tour():
     # Tour exists validation
     tours = load_tours()
     tour_id = request.form.get('tour_id')
-    if not any(t['id'] == tour_id for t in tours):
+    tour = next((t for t in tours if t['id'] == tour_id), None)
+    
+    if not tour:
         errors.append('Invalid tour selected')
+    else:
+        # Check minimum booking requirement
+        min_booking = tour.get('min_booking', 1)
+        if num_people < min_booking:
+            errors.append(f'Minimum booking requirement is {min_booking} people')
+        
+        # Check if booking is open
+        booking_status = tour.get('booking_status', 'open')
+        if booking_status != 'open':
+            errors.append('Booking is currently closed for this tour')
+        
+        # Check if selected date is available (if available_dates is set)
+        preferred_date = request.form.get('preferred_date_time', '').strip()
+        available_dates = tour.get('available_dates', [])
+        if available_dates and preferred_date:
+            date_only = preferred_date.split('T')[0] if 'T' in preferred_date else preferred_date.split(' ')[0]
+            if date_only not in available_dates:
+                errors.append('Selected date is not available for booking')
 
     if errors:
         return jsonify({'success': False, 'message': '; '.join(errors)})
@@ -466,6 +486,44 @@ def admin_delete_tour(tour_id):
         flash(f'Error deleting tour: {e}')
 
     return redirect(url_for('admin_tours'))
+
+@app.route('/admin/tours/manage-dates/<tour_id>', methods=['GET', 'POST'])
+@admin_required
+def admin_manage_tour_dates(tour_id):
+    tours = load_tours()
+    tour = next((t for t in tours if t['id'] == tour_id), None)
+
+    if not tour:
+        flash('Tour not found')
+        return redirect(url_for('admin_tours'))
+
+    if request.method == 'POST':
+        # Get minimum booking requirement
+        min_booking = int(request.form.get('min_booking', 2))
+        
+        # Get available dates from form
+        available_dates = request.form.get('available_dates', '')
+        dates_list = [d.strip() for d in available_dates.split('\n') if d.strip()]
+        
+        # Update tour with new fields
+        tour['min_booking'] = min_booking
+        tour['available_dates'] = dates_list
+        tour['booking_status'] = request.form.get('booking_status', 'open')
+        
+        try:
+            with open('tours.json', 'w') as f:
+                json.dump(tours, f, indent=2)
+            flash('Tour dates and booking settings updated successfully!')
+            return redirect(url_for('admin_tours'))
+        except Exception as e:
+            flash(f'Error updating tour: {e}')
+
+    # Add meta tags for admin manage dates page SEO (prevent indexing)
+    meta_tags = {
+        'title': f"Manage Dates: {tour.get('title', 'Unknown Tour')} - Albania Walk Tours",
+        'robots': 'noindex, nofollow'
+    }
+    return render_template('admin/manage_dates.html', tour=tour, meta_tags=meta_tags)
 
 @app.route('/admin/bookings')
 @admin_required

@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block title %}{{ tour.title }} - Albania Walk Tour{% endblock %}
@@ -37,7 +36,7 @@
                 <!-- Day by Day Itinerary -->
                 <div class="tour-itinerary">
                     <h2>Daily Itinerary</h2>
-                    
+
                     <div class="day-card">
                         <div class="day-header">
                             <h3>Day 1: Arrival in Tirana</h3>
@@ -166,7 +165,7 @@
                     <h3>Book This 6-Day Tour</h3>
                     <form id="booking-form" class="booking-form" method="post" action="/book">
                         <input type="hidden" name="tour_id" value="{{ tour.id }}">
-                        
+
                         <div class="form-group">
                             <label for="user_name">Full Name *</label>
                             <input type="text" id="user_name" name="user_name" required>
@@ -224,12 +223,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="number_of_people">Number of People *</label>
-                            <select id="number_of_people" name="number_of_people" required>
-                                {% for i in range(1, 11) %}
-                                <option value="{{ i }}">{{ i }} {{ 'person' if i == 1 else 'people' }}</option>
-                                {% endfor %}
-                            </select>
+                            <label for="number_of_people">Number of People * (Minimum: {{ tour.min_booking if tour.min_booking else 1 }})</label>
+                            <input type="number" id="number_of_people" name="number_of_people" 
+                                   min="{{ tour.min_booking if tour.min_booking else 1 }}" 
+                                   max="20" 
+                                   value="{{ tour.min_booking if tour.min_booking else 1 }}" 
+                                   required>
+                            {% if tour.min_booking and tour.min_booking > 1 %}
+                            <small style="color: #0071e3; display: block; margin-top: 5px;">
+                                This tour requires a minimum of {{ tour.min_booking }} people
+                            </small>
+                            {% endif %}
                         </div>
 
                         <div class="form-group">
@@ -515,19 +519,19 @@
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .tour-header h1 {
         font-size: 2rem;
     }
-    
+
     .tour-meta {
         gap: 1rem;
     }
-    
+
     .booking-sidebar {
         position: static;
     }
-    
+
     .day-content {
         padding: 1rem;
     }

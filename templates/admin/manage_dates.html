@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Dates - {{ tour.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <nav class="admin-nav">
+            <div class="nav-brand">
+                <h2>Tirana Walk Tour</h2>
+                <span>Admin Dashboard</span>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ url_for('admin_tours') }}" class="nav-link active">Tours</a>
+                <a href="{{ url_for('admin_bookings') }}" class="nav-link">Bookings</a>
+                <a href="{{ url_for('admin_cookies') }}" class="nav-link">Cookies</a>
+                <a href="{{ url_for('admin_logout') }}" class="nav-link logout">Logout</a>
+            </div>
+        </nav>
+        
+        <main class="admin-main">
+            <div class="page-header">
+                <h1>Manage Dates & Booking Settings: {{ tour.title }}</h1>
+                <a href="{{ url_for('admin_tours') }}" class="btn btn-secondary">Back to Tours</a>
+            </div>
+            
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" class="tour-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="min_booking">Minimum Booking (People) *</label>
+                        <input type="number" id="min_booking" name="min_booking" 
+                               value="{{ tour.min_booking if tour.min_booking else 2 }}" 
+                               min="1" max="20" required>
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Minimum number of people required to book this tour
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="booking_status">Booking Status *</label>
+                        <select id="booking_status" name="booking_status" required>
+                            <option value="open" {% if tour.booking_status == 'open' or not tour.booking_status %}selected{% endif %}>Open</option>
+                            <option value="closed" {% if tour.booking_status == 'closed' %}selected{% endif %}>Closed</option>
+                        </select>
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Control whether this tour accepts new bookings
+                        </small>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="available_dates">Available Dates (one per line)</label>
+                        <textarea id="available_dates" name="available_dates" rows="10" 
+                                  placeholder="2025-10-15&#10;2025-10-20&#10;2025-10-25">{{ tour.available_dates|join('\n') if tour.available_dates else '' }}</textarea>
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Format: YYYY-MM-DD (one date per line). Leave empty to allow any date.
+                        </small>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Update Settings</button>
+                    <a href="{{ url_for('admin_tours') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

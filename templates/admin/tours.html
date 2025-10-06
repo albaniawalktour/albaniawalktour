@@ -58,6 +58,7 @@
                                 <td>{{ tour.duration }}</td>
                                 <td>
                                     <a href="{{ url_for('admin_edit_tour', tour_id=tour.id) }}" class="btn btn-small btn-secondary">Edit</a>
+                                    <a href="{{ url_for('admin_manage_tour_dates', tour_id=tour.id) }}" class="btn btn-small btn-primary">Manage Dates</a>
                                     <form method="post" action="{{ url_for('admin_delete_tour', tour_id=tour.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this tour?')">
                                         <button type="submit" class="btn btn-small btn-danger">Delete</button>
                                     </form>

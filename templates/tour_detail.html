@@ -141,7 +141,7 @@
                     <h3>Book This Tour</h3>
                     <form id="booking-form" class="booking-form" method="post" action="/book">
                         <input type="hidden" name="tour_id" value="{{ tour.id }}">
-                        
+
                         <div class="form-group">
                             <label for="user_name">Full Name *</label>
                             <input type="text" id="user_name" name="user_name" required>
@@ -199,12 +199,34 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="number_of_people">Number of People *</label>
-                            <select id="number_of_people" name="number_of_people" required>
-                                {% for i in range(1, 11) %}
-                                <option value="{{ i }}">{{ i }} {{ 'person' if i == 1 else 'people' }}</option>
+                            <label for="number_of_people">Number of People * (Minimum: {{ tour.min_booking if tour.min_booking else 1 }})</label>
+                            <input type="number" id="number_of_people" name="number_of_people" 
+                                   min="{{ tour.min_booking if tour.min_booking else 1 }}" 
+                                   max="20" 
+                                   value="{{ tour.min_booking if tour.min_booking else 1 }}" 
+                                   required>
+                            {% if tour.min_booking and tour.min_booking > 1 %}
+                            <small style="color: #0071e3; display: block; margin-top: 5px;">
+                                This tour requires a minimum of {{ tour.min_booking }} people
+                            </small>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="preferred_date_time">Preferred Date & Time *</label>
+                            {% if tour.available_dates and tour.available_dates|length > 0 %}
+                            <select id="preferred_date_time" name="preferred_date_time" required>
+                                <option value="">Select an available date</option>
+                                {% for date in tour.available_dates %}
+                                <option value="{{ date }}">{{ date }}</option>
                                 {% endfor %}
                             </select>
+                            <small style="color: #666; display: block; margin-top: 5px;">
+                                Only pre-scheduled dates are available for booking
+                            </small>
+                            {% else %}
+                            <input type="date" id="preferred_date_time" name="preferred_date_time" required>
+                            {% endif %}
                         </div>
 
                         <div class="form-group">
@@ -447,15 +469,15 @@
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .tour-header h1 {
         font-size: 2rem;
     }
-    
+
     .tour-meta {
         gap: 1rem;
     }
-    
+
     .booking-sidebar {
         position: static;
     }
