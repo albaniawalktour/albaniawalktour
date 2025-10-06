@@ -1,17 +1,5 @@
 [
   {
-    "booking_id": "4d2daad4-f07d-4baf-ab70-280bc32be0f3",
-    "tour_id": "custom-tour-albania",
-    "user_name": "aas",
-    "user_email": "asf@gmail.com",
-    "user_phone": "fasfa",
-    "number_of_people": 3,
-    "preferred_date_time": "By Appointment",
-    "special_requests": "asda",
-    "booking_time": "2025-09-20T17:26:10.395168",
-    "payment_status": "pending"
-  },
-  {
     "booking_id": "710e75af-db28-4b67-b5bb-58730a029545",
     "tour_id": "tirana-food-culture",
     "user_name": "sdf",
@@ -57,6 +45,18 @@
     "preferred_date_time": "2025-10-23",
     "special_requests": "",
     "booking_time": "2025-10-05T08:45:09.681794",
+    "payment_status": "pending"
+  },
+  {
+    "booking_id": "72b46125-659d-4702-b0ec-bba8c6eb6376",
+    "tour_id": "theth-tirane-berat-tour",
+    "user_name": "ads",
+    "user_email": "sadad@gmail.com",
+    "user_phone": "+355 333355",
+    "number_of_people": 2,
+    "preferred_date_time": "2025-10-21",
+    "special_requests": "sd",
+    "booking_time": "2025-10-06T11:09:44.587059",
     "payment_status": "pending"
   }
 ]

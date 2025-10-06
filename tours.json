@@ -40,6 +40,22 @@
     "languages": [
       "English",
       "Albanian"
+    ],
+    "dates_data": [
+      {
+        "date": "2025-10-15",
+        "enabled": true
+      },
+      {
+        "date": "2025-10-21",
+        "enabled": true
+      }
+    ],
+    "min_booking": 2,
+    "booking_status": "open",
+    "available_dates": [
+      "2025-10-15",
+      "2025-10-21"
     ]
   },
   {
